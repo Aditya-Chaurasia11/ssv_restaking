@@ -4,6 +4,8 @@ import "./navbar.css";
 import { useEffect } from "react";
 import { ethers } from "ethers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useTheme } from "./ThemeContext";
+import { FaSun, FaMoon } from "react-icons/fa";
 
 // import {
 //   ConnectKitProvider,
@@ -15,6 +17,12 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 const Navbar = () => {
   // const { account, setAccount, provider, setProvider, contract, setContract } =
   //   useWeb3();
+
+  const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    document.body.className = theme === "light" ? "" : "dark";
+  }, [theme]);
 
   return (
     <div className="gpt3__navbar">
@@ -30,7 +38,7 @@ const Navbar = () => {
       <div className="gpt3__navbar-sign">
         <button
           type="button"
-          
+
           // onClick={loadAddress}
         >
           {/* {account
@@ -41,7 +49,22 @@ const Navbar = () => {
             : "Connect wallet"} */}
           <ConnectButton />
         </button>
-
+        {/* <button onClick={toggleTheme}>
+        Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
+      </button> */}
+        <button
+          onClick={toggleTheme}
+          style={{
+            padding: "10px",
+            backgroundColor: "transparent",
+            border: "none",
+            cursor: "pointer",
+            fontSize: "24px",
+          }}
+        >
+          {theme === "light" ? <FaMoon /> : <FaSun />}
+        </button>{" "}
+        {/* <ModeToggle/> */}
         {/* <Link to="/collection">
           <button type="button" className="navbar_my_nft_button">
             Collection{" "}
