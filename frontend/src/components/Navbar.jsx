@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import "./navbar.css";
 import { useEffect } from "react";
 import { ethers } from "ethers";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 // import {
 //   ConnectKitProvider,
@@ -29,7 +30,7 @@ const Navbar = () => {
       <div className="gpt3__navbar-sign">
         <button
           type="button"
-          className="navbar_my_nft_button_add"
+          
           // onClick={loadAddress}
         >
           {/* {account
@@ -38,10 +39,10 @@ const Navbar = () => {
                 account.length
               )}`
             : "Connect wallet"} */}
-            adas
+          <ConnectButton />
         </button>
 
-        <Link to="/collection">
+        {/* <Link to="/collection">
           <button type="button" className="navbar_my_nft_button">
             Collection{" "}
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -51,7 +52,7 @@ const Navbar = () => {
               />
             </svg>
           </button>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

@@ -1,0 +1,113 @@
+.chooseOperator_container {
+  padding: 5px 5rem;
+  padding-bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  min-height: 70vh;
+  margin-top: 40px;
+}
+
+.left-side_button_container {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-side_button_container h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #a2a9ba;
+  width: max-content;
+}
+
+.left-side_button_coll {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 83%;
+}
+
+.left-side {
+  border: 1px solid red;
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 65%;
+}
+
+.left_side_heading h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.left-side_button {
+  padding: 4px 60px;
+  color: #97a5ba;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  border: 1px solid #e6eaf7;
+  border-radius: 8px;
+}
+
+.choose_operator_button_active {
+  color: #32a7f9;
+  background-color: #e9f7fe;
+  border-color: #bbe5fc;
+}
+
+.chooseOp_mev {
+  color: #32a7f9;
+  background-color: #e9f7fe;
+  border: 1px solid #bbe5fc;
+  border-radius: 8px;
+  text-align: center;
+  padding: 4px 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.choose_operator_datalist {
+  margin-top: 30px;
+}
+
+.right-side_chooseOperator_container {
+  width: 37%;
+  border-radius: 8px;
+  border: 1px solid red;
+  padding: 2rem;
+}
+
+.right-side_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chooseOperator_right_side_button {
+  border: 1px dotted #d2d9e8;
+  border-radius: 8px;
+  background-color: #f2f6fb;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #d2d9e8;
+  font-size: 18px;
+  /* margin-top: 20px; */
+  margin-bottom: 20px;
+}
+
+.chooseOperator_right_side_button_container {
+  max-height: 550px;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.right-side_header h2 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.right-side_header span {
+  color: #1da4f9;
+}

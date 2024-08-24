@@ -1,9 +1,17 @@
-import React from 'react'
+import React from "react";
+import DragComponent from "../components/DragDrop/DragComponent";
+import ChooseOperator from "../components/Choose Operator/ChooseOperator";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <div>
+      <div>
+        <ChooseOperator/>
+        <DragComponent/>
 
-export default Home
+      </div>
+    </div>
+  );
+};
+
+export default Home;
