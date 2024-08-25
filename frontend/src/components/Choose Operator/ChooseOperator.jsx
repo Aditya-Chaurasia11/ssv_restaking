@@ -12,7 +12,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import noImg from "../../assets/no-pictures.png";
 import { useNavigate } from "react-router-dom";
-
+import PopoverContainer from "@idui/react-popover";
 
 const ChooseOperator = () => {
   const [selectedNumber, setSelectedNumber] = useState(4);
@@ -62,7 +62,7 @@ const ChooseOperator = () => {
 
   const handleSelectedOperator = () => {
     console.log("Logged Data:", rightData);
-
+    // navigate()
   };
 
   const countSelected = () => {
@@ -170,9 +170,37 @@ const ChooseOperator = () => {
                       SSV
                     </TableCell>
                     <TableCell align="right">
-                      <div className="chooseOp_mev">
-                        {row.mev_relays?.split(",").length}
-                      </div>
+                      <PopoverContainer
+                        animation={{
+                          animate: {
+                            opacity: 1,
+                            scale: 1,
+                          },
+                          exit: {
+                            opacity: 0,
+                            scale: 0.9,
+                            transition: {
+                              duration: 0.1,
+                            },
+                          },
+                          initial: {
+                            opacity: 0,
+                            scale: 0.9,
+                          },
+                        }}
+                        arrowOffset={195}
+                        arrowPlacement="center"
+                        arrowSize={15}
+                        content={`${row.mev_relays?.split(",")}`}
+                        maxWidth="10"
+                        offset={[0, 0]}
+                        onChangeOpen={function noRefCheck() {}}
+                        onFocus={function noRefCheck() {}}
+                      >
+                        <div className="chooseOp_mev">
+                          {row.mev_relays?.split(",").length}
+                        </div>
+                      </PopoverContainer>
                     </TableCell>
                   </TableRow>
                 ))}
