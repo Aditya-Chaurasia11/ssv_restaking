@@ -1,5 +1,18 @@
 import { CustomDragDrop } from "./CustomContainer";
 import { useEffect, useState } from "react";
+// import TextField from '@mui/material/TextField';
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Input from "@mui/material/Input";
+import FilledInput from "@mui/material/FilledInput";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 export default function DragComponent() {
   const [ownerLicense, setOwnerLicense] = useState([]);
@@ -43,6 +56,14 @@ export default function DragComponent() {
     });
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="bg-white shadow rounded-lg w-1/2 px-5 pt-3 pb-5">
       <div className="pb-[8px] border-b border-[#e0e0e0]">
@@ -62,14 +83,46 @@ export default function DragComponent() {
             Keystore Password
           </h2>
           {ownerLicense.map((_, index) => (
-            <input
-              key={index}
-              type="text"
-              value={textValues[index]}
-              onChange={(e) => handleInputChange(index, e.target.value)}
-              className="border border-gray-300 p-2 rounded w-full"
-              placeholder={`Enter keystore password for ${index + 1}`}
-            />
+            <div>
+              {/* <input
+                key={index}
+                type="password"
+                value={textValues[index]}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                className="border border-gray-300 p-2 rounded w-full"
+                placeholder={`Enter keystore password for ${index + 1}`}
+              /> */}
+
+              <FormControl
+                sx={{ mt: "10px", width: "100%" }}
+                variant="outlined"
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  {`Enter keystore password for file ${index + 1}`}
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        value={textValues[index]}
+                        onChange={(e) =>
+                          handleInputChange(index, e.target.value)
+                        }
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label={`Enter keystore password for file ${index + 1}`}
+                />
+              </FormControl>
+            </div>
           ))}
           <button
             className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"

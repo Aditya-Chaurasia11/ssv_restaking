@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import DistributeValidator from "./components/distributeValidator";
 import ChooseOperator from "./components/Choose Operator/ChooseOperator";
+import DistributionMethod from "./components/distributionMethod";
+import DragComponent from "./components/DragDrop2/DragComponent";
 
 function App() {
   return (
@@ -22,7 +24,11 @@ function App() {
           ></Route>
           <Route
             path="/join/validator/distribution-method"
-            element={<ChooseOperator />}
+            element={<DistributionMethod />}
+          ></Route>
+          <Route
+            path="/join/validator/upload-keystore"
+            element={<DragComponent />}
           ></Route>
         </Routes>
 

@@ -62,7 +62,7 @@ const ChooseOperator = () => {
 
   const handleSelectedOperator = () => {
     console.log("Logged Data:", rightData);
-    // navigate()
+    navigate("/join/validator/distribution-method");
   };
 
   const countSelected = () => {

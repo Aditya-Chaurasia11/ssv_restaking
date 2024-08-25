@@ -11,9 +11,9 @@ const Home = () => {
       <div>
         {/* <ChooseOperator /> */}
         {/* <DragComponent /> */}
-        {/* <JoinCard /> */}
+        <JoinCard />
         {/* <DistributeValidator/> */}
-        <DistributionMethod/>
+        {/* <DistributionMethod/> */}
       </div>
     </div>
   );
