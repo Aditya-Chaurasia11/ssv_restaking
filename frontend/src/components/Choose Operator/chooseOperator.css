@@ -29,10 +29,11 @@
 }
 
 .left-side {
-  border: 1px solid red;
-  border-radius: 10px;
+  /* border: 1px solid red; */
+  border-radius: 15px;
   padding: 2rem;
-  max-width: 65%;
+  min-width: 61%;
+  background-color: white;
 }
 
 .left_side_heading h2 {
@@ -69,13 +70,13 @@
 }
 
 .choose_operator_datalist {
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .right-side_chooseOperator_container {
-  width: 37%;
-  border-radius: 8px;
-  border: 1px solid red;
+  width: 36%;
+  border-radius: 15px;
+  background-color: white;
   padding: 2rem;
 }
 
@@ -86,6 +87,10 @@
 }
 
 .chooseOperator_right_side_button {
+  margin-bottom: 20px;
+}
+
+.notchoosenOperator_right {
   border: 1px dotted #d2d9e8;
   border-radius: 8px;
   background-color: #f2f6fb;
@@ -93,12 +98,10 @@
   text-align: center;
   color: #d2d9e8;
   font-size: 18px;
-  /* margin-top: 20px; */
-  margin-bottom: 20px;
 }
 
 .chooseOperator_right_side_button_container {
-  max-height: 550px;
+  height: 450px;
   margin-top: 20px;
   overflow-x: auto;
 }
@@ -110,4 +113,72 @@
 
 .right-side_header span {
   color: #1da4f9;
+}
+
+.choosenOperator_right {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border: 1px solid #d2d9e8;
+  border-radius: 12px;
+  color: #0a2b3c;
+}
+
+.choosenOperator_right_left {
+  display: flex;
+  align-items: center;
+  max-width: 310px;
+}
+
+.choosenOperator_right_left img {
+  height: 40px;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.choosenOperator_right_left_data p {
+  color: rgb(161, 172, 190);
+  font-size: 14px;
+}
+
+.choosenOperator_right h2 {
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.chooseOperator_right_side_bottom_container {
+  margin-top: 20px;
+}
+
+.chooseOperator_right_side_bottom_container_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.chooseOperator_right_side_bottom_container_header h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0a2b3c;
+}
+
+.chooseOperator_right_side_bottom_container_header p {
+  font-size: 17px;
+}
+
+.chooseOperator_right_side_bottom {
+  font-size: 18px;
+}
+
+.choose_operator_row_container{
+  display: flex;
+  align-items: center;
+}
+.choose_operator_row_container img {
+  height: 30px;
+  border-radius: 10px;
+  margin-right: 15px;
 }

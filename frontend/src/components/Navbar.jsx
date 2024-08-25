@@ -7,17 +7,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useTheme } from "./ThemeContext";
 import { FaSun, FaMoon } from "react-icons/fa";
 
-// import {
-//   ConnectKitProvider,
-//   ConnectKitButton,
-//   getDefaultConfig,
-// } from "connectkit";
-// import logo from "../images/logo.png";
-
 const Navbar = () => {
-  // const { account, setAccount, provider, setProvider, contract, setContract } =
-  //   useWeb3();
-
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
@@ -49,9 +39,6 @@ const Navbar = () => {
             : "Connect wallet"} */}
           <ConnectButton />
         </button>
-        {/* <button onClick={toggleTheme}>
-        Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
-      </button> */}
         <button
           onClick={toggleTheme}
           style={{

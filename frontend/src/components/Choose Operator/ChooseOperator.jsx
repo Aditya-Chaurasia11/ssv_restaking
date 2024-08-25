@@ -9,11 +9,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
+import noImg from "../../assets/no-pictures.png";
 
 const ChooseOperator = () => {
   const [selectedNumber, setSelectedNumber] = useState(4);
   const [leftData, setLeftData] = useState([]);
   const [rightData, setRightData] = useState(Array(4).fill(null));
+  const [totalSelectedFee, setSelectedFee] = useState(0.0);
 
   useEffect(() => {
     getData();
@@ -29,7 +32,7 @@ const ChooseOperator = () => {
 
   const handleButtonClick = (number) => {
     setSelectedNumber(number);
-    setRightData(Array(number).fill(null)); // Reset right side fields based on selected number
+    setRightData(Array(number).fill(null));
   };
 
   const handleCheckboxToggle = (item) => {
@@ -39,10 +42,8 @@ const ChooseOperator = () => {
     );
 
     if (itemIndexInRight !== -1) {
-      // If item is already in right side, remove it
       updatedRightData[itemIndexInRight] = null;
     } else {
-      // If item is not in right side, add it to the first available spot
       const emptyIndex = updatedRightData.indexOf(null);
       if (emptyIndex !== -1) {
         updatedRightData[emptyIndex] = item;
@@ -53,10 +54,32 @@ const ChooseOperator = () => {
     }
 
     setRightData(updatedRightData);
+    updateTotalFee(updatedRightData);
   };
 
   const handleLogData = () => {
     console.log("Logged Data:", rightData);
+  };
+
+  const countSelected = () => {
+    return rightData.filter((data) => data !== null).length;
+  };
+
+  const calculateTotalFee = (selectedData) => {
+    return selectedData.reduce((total, item) => {
+      if (item) {
+        return (
+          total +
+          Number((BigInt(item.fee || 0) * 100n) / 382640000000n) / 100
+        );
+      }
+      return total;
+    }, 0);
+  };
+
+  const updateTotalFee = (selectedData) => {
+    const totalFee = calculateTotalFee(selectedData);
+    setSelectedFee(totalFee.toFixed(2));
   };
 
   return (
@@ -87,7 +110,7 @@ const ChooseOperator = () => {
         </div>
 
         <div className="choose_operator_datalist">
-          <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+          <TableContainer component={Paper} sx={{ maxHeight: 510 }}>
             <Table
               sx={{ minWidth: 650 }}
               stickyHeader
@@ -122,7 +145,13 @@ const ChooseOperator = () => {
                       />
                     </TableCell>
                     <TableCell component="th" scope="row">
-                      {row.name}
+                      <div className="choose_operator_row_container">
+                        <img src={row.logo ? row?.logo : noImg}></img>
+                        <div className="choose_operator_row_container_data">
+                          <h2>{row.name}</h2>
+                          <p> ID : {row?.id}</p>
+                        </div>
+                      </div>
                     </TableCell>
                     <TableCell align="center">
                       {row?.validators_count}
@@ -154,7 +183,7 @@ const ChooseOperator = () => {
         <div className="right-side_header">
           <h2>Selected Operators</h2>
           <h2>
-            <span>0/{selectedNumber}</span>
+            <span>{countSelected()}/{selectedNumber}</span>
           </h2>
         </div>
         <div className="chooseOperator_right_side_button_container">
@@ -164,26 +193,44 @@ const ChooseOperator = () => {
                 <div className="choosenOperator_right">
                   <div className="choosenOperator_right_left">
                     <img src={data?.logo}></img>
-                    <div>
+                    <div className="choosenOperator_right_left_data">
                       <h2>{data?.name}</h2>
-                      <p>{data?.id}</p>
+                      <p>ID : {data?.id}</p>
                     </div>
                   </div>
                   <div className="choosenOperator_right_right">
-                    {(
-                      Number((BigInt(data?.fee || 0) * 100n) / 382640000000n) /
-                      100
-                    ).toFixed(2)}{" "}
-                    SSV
+                    <h2>
+                      {(
+                        Number(
+                          (BigInt(data?.fee || 0) * 100n) / 382640000000n
+                        ) / 100
+                      ).toFixed(2)}{" "}
+                      SSV
+                    </h2>
                   </div>
                 </div>
               ) : (
-                <div>Select Operator</div>
+                <div className="notchoosenOperator_right">Select Operator</div>
               )}
             </div>
           ))}
         </div>
-        <button onClick={handleLogData}>Log Data</button>
+        <div className="chooseOperator_right_side_bottom_container">
+          <hr></hr>
+          <div className="chooseOperator_right_side_bottom_container_header">
+            <p>Operators Yearly Fee </p>
+            <h2>{totalSelectedFee} SSV</h2>
+          </div>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ minWidth: "100%" }}
+            onClick={handleLogData}
+            // disableElevation
+          >
+            <h2 className="chooseOperator_right_side_bottom">Next</h2>
+          </Button>
+        </div>
       </div>
     </div>
   );
