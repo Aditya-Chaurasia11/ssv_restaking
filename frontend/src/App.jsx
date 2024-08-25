@@ -6,6 +6,8 @@ import DistributeValidator from "./components/distributeValidator";
 import ChooseOperator from "./components/Choose Operator/ChooseOperator";
 import DistributionMethod from "./components/distributionMethod";
 import DragComponent from "./components/DragDrop2/DragComponent";
+import Temp from "./pages/Temp";
+import { MintNFT } from "./pages/mint";
 
 function App() {
   return (
@@ -30,6 +32,10 @@ function App() {
             path="/join/validator/upload-keystore"
             element={<DragComponent />}
           ></Route>
+
+          <Route path="/temp" element={<Temp />}></Route>
+
+          <Route path="/temp2" element={<MintNFT />}></Route>
         </Routes>
 
         <ToastContainer />
