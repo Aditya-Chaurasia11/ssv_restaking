@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import DragComponent from "../components/DragDrop/DragComponent";
+import DragComponent from "../components/DragDrop2/DragComponent";
 import ChooseOperator from "../components/Choose Operator/ChooseOperator";
 import JoinCard from "../components/JoinCard";
 import DistributeValidator from "../components/distributeValidator";
+import DistributionMethod from "../components/distributionMethod";
 
 const Home = () => {
   return (
@@ -10,8 +11,9 @@ const Home = () => {
       <div>
         {/* <ChooseOperator /> */}
         {/* <DragComponent /> */}
-        <JoinCard />
+        {/* <JoinCard /> */}
         {/* <DistributeValidator/> */}
+        <DistributionMethod/>
       </div>
     </div>
   );
