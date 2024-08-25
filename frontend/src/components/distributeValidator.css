@@ -6,6 +6,13 @@
   background-color: white;
 }
 
+.distributeValidator_upper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+}
+
 .distributeValidator_container_header h2 {
   font-size: 22px;
   font-weight: 650;

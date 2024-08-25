@@ -10,6 +10,13 @@
   background-color: white;
 }
 
+.distributionMethod_container_upper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 85vh;
+}
+
 .distributionMethod_container img {
   margin-top: 20px;
   width: 90%;

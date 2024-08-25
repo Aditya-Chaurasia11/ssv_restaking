@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import Home from "./pages/Join";
 import Navbar from "./components/Navbar";
 import { ToastContainer, toast } from "react-toastify";
 import DistributeValidator from "./components/distributeValidator";

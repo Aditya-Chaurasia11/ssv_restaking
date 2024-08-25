@@ -11,7 +11,8 @@ const DistributionMethod = () => {
   };
 
   return (
-    <div className="distributionMethod_container">
+    <div className="distributionMethod_container_upper">
+        <div className="distributionMethod_container">
       <div className="distributionMethod_container_header">
         <h2>Generate Validator KeyShares</h2>
         <p>
@@ -28,6 +29,7 @@ const DistributionMethod = () => {
           <button>Offline</button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

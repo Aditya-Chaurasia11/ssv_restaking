@@ -4,19 +4,16 @@ import ChooseOperator from "../components/Choose Operator/ChooseOperator";
 import JoinCard from "../components/JoinCard";
 import DistributeValidator from "../components/distributeValidator";
 import DistributionMethod from "../components/distributionMethod";
+import "./join.css";
 
-const Home = () => {
+const Join = () => {
   return (
-    <div>
-      <div>
-        {/* <ChooseOperator /> */}
-        {/* <DragComponent /> */}
+    <>
+      <div className="join_container">
         <JoinCard />
-        {/* <DistributeValidator/> */}
-        {/* <DistributionMethod/> */}
       </div>
-    </div>
+    </>
   );
 };
 
-export default Home;
+export default Join;

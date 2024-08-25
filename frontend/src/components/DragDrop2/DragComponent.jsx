@@ -65,26 +65,27 @@ export default function DragComponent() {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg w-1/2 px-5 pt-3 pb-5">
-      <div className="pb-[8px] border-b border-[#e0e0e0]">
-        <h2 className="text-black text-[17px] font-[600]">
-          Enter KeyShares File
-        </h2>
-      </div>
-      <CustomDragDrop
-        ownerLicense={ownerLicense}
-        onUpload={uploadFiles}
-        onDelete={deleteFile}
-        formats={["json"]}
-      />
-      {ownerLicense.length > 0 && (
-        <div className="mt-4 space-y-2">
-          <h2 className="text-[#97a5ba] text-[16px] font-[500] mt-[30px] mb-[1px]">
-            Keystore Password
+    <div className="flex items-center justify-center mt-[70px] pb-[50px]">
+      <div className="bg-white shadow rounded-lg w-1/2 px-5 pt-3 pb-5">
+        <div className="pb-[8px] border-b border-[#e0e0e0]">
+          <h2 className="text-black text-[17px] font-[600]">
+            Enter KeyShares File
           </h2>
-          {ownerLicense.map((_, index) => (
-            <div>
-              {/* <input
+        </div>
+        <CustomDragDrop
+          ownerLicense={ownerLicense}
+          onUpload={uploadFiles}
+          onDelete={deleteFile}
+          formats={["json"]}
+        />
+        {ownerLicense.length > 0 && (
+          <div className="mt-4 space-y-2">
+            <h2 className="text-[#97a5ba] text-[16px] font-[500] mt-[30px] mb-[1px]">
+              Keystore Password
+            </h2>
+            {ownerLicense.map((_, index) => (
+              <div>
+                {/* <input
                 key={index}
                 type="password"
                 value={textValues[index]}
@@ -93,45 +94,46 @@ export default function DragComponent() {
                 placeholder={`Enter keystore password for ${index + 1}`}
               /> */}
 
-              <FormControl
-                sx={{ mt: "10px", width: "100%" }}
-                variant="outlined"
-              >
-                <InputLabel htmlFor="outlined-adornment-password">
-                  {`Enter keystore password for file ${index + 1}`}
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={showPassword ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        value={textValues[index]}
-                        onChange={(e) =>
-                          handleInputChange(index, e.target.value)
-                        }
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                  label={`Enter keystore password for file ${index + 1}`}
-                />
-              </FormControl>
-            </div>
-          ))}
-          <button
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={printJsonFiles}
-          >
-            Print JSON Files
-          </button>
-        </div>
-      )}
+                <FormControl
+                  sx={{ mt: "5px",mb: "px", width: "100%" }}
+                  variant="outlined"
+                >
+                  <InputLabel htmlFor="outlined-adornment-password">
+                    {`Enter keystore password for file ${index + 1}`}
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={showPassword ? "text" : "password"}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          value={textValues[index]}
+                          onChange={(e) =>
+                            handleInputChange(index, e.target.value)
+                          }
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label={`Enter keystore password for file ${index + 1}`}
+                  />
+                </FormControl>
+              </div>
+            ))}
+            <button
+              className="w-full text-[19px] bg-blue-500 text-white px-5 py-3 rounded"
+              onClick={printJsonFiles}
+            >
+              Next
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
