@@ -5,7 +5,8 @@ import { useEffect } from "react";
 import { ethers } from "ethers";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useTheme } from "./ThemeContext";
-import { FaSun, FaMoon } from "react-icons/fa";
+import light from "../assets/light.svg";
+import dark from "../assets/dark.svg";
 
 const Navbar = () => {
   const { theme, toggleTheme } = useTheme();
@@ -49,8 +50,12 @@ const Navbar = () => {
             fontSize: "24px",
           }}
         >
-          {theme === "light" ? <FaMoon /> : <FaSun />}
-        </button>{" "}
+          {theme === "light" ? (
+            <img className="navbar_toogle" src={light}></img>
+          ) : (
+            <img className="navbar_toogle" src={dark}></img>
+          )}
+        </button>
         {/* <ModeToggle/> */}
         {/* <Link to="/collection">
           <button type="button" className="navbar_my_nft_button">

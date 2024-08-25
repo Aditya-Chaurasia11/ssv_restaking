@@ -11,12 +11,15 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import noImg from "../../assets/no-pictures.png";
+import { useNavigate } from "react-router-dom";
+
 
 const ChooseOperator = () => {
   const [selectedNumber, setSelectedNumber] = useState(4);
   const [leftData, setLeftData] = useState([]);
   const [rightData, setRightData] = useState(Array(4).fill(null));
   const [totalSelectedFee, setSelectedFee] = useState(0.0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getData();
@@ -57,8 +60,9 @@ const ChooseOperator = () => {
     updateTotalFee(updatedRightData);
   };
 
-  const handleLogData = () => {
+  const handleSelectedOperator = () => {
     console.log("Logged Data:", rightData);
+
   };
 
   const countSelected = () => {
@@ -69,8 +73,7 @@ const ChooseOperator = () => {
     return selectedData.reduce((total, item) => {
       if (item) {
         return (
-          total +
-          Number((BigInt(item.fee || 0) * 100n) / 382640000000n) / 100
+          total + Number((BigInt(item.fee || 0) * 100n) / 382640000000n) / 100
         );
       }
       return total;
@@ -183,7 +186,9 @@ const ChooseOperator = () => {
         <div className="right-side_header">
           <h2>Selected Operators</h2>
           <h2>
-            <span>{countSelected()}/{selectedNumber}</span>
+            <span>
+              {countSelected()}/{selectedNumber}
+            </span>
           </h2>
         </div>
         <div className="chooseOperator_right_side_button_container">
@@ -192,7 +197,7 @@ const ChooseOperator = () => {
               {data ? (
                 <div className="choosenOperator_right">
                   <div className="choosenOperator_right_left">
-                    <img src={data?.logo}></img>
+                    <img src={data.logo ? data?.logo : noImg}></img>
                     <div className="choosenOperator_right_left_data">
                       <h2>{data?.name}</h2>
                       <p>ID : {data?.id}</p>
@@ -225,8 +230,8 @@ const ChooseOperator = () => {
             variant="contained"
             color="primary"
             sx={{ minWidth: "100%" }}
-            onClick={handleLogData}
-            // disableElevation
+            onClick={handleSelectedOperator}
+            disabled={countSelected() !== selectedNumber}
           >
             <h2 className="chooseOperator_right_side_bottom">Next</h2>
           </Button>

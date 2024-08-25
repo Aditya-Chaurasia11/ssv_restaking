@@ -1,0 +1,36 @@
+.joincard_container {
+  /* border: 1px solid red; */
+  padding: 2rem;
+  background-color: white;
+  width: 40%;
+  border-radius: 15px;
+}
+
+.joincard_container_header h2 {
+  font-size: 21px;
+  font-weight: 600;
+}
+.joincard_container_header p {
+  font-size: 16px;
+  color: #3f4c58;
+  margin-top: 10px;
+}
+
+.joincard_container_button_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.joincard_container_button_container button {
+  color: #32a7f9;
+  background-color: #e9f7fe;
+  border-color: #bbe5fc;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 15px 55px;
+  border-radius: 10px;
+  cursor: pointer;
+
+}

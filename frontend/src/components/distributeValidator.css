@@ -1,0 +1,66 @@
+.distributeValidator_container {
+  /* border: 1pxs solid red; */
+  width: 40%;
+  padding: 2rem;
+  border-radius: 15px;
+  background-color: white;
+}
+
+.distributeValidator_container_header h2 {
+  font-size: 22px;
+  font-weight: 650;
+}
+
+.distributeValidator_container_header p {
+  font-size: 17px;
+  margin-top: 15px;
+}
+
+.distributeValidator_container_body h2 {
+  color: #97a5ba;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+.distributeValidator_container_body p {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.distributeValidator_container_button_container {
+  display: flex;
+  margin-top: 40px;
+  flex-direction: column;
+  width: 100%;
+}
+
+.distributeVal_button2 {
+  color: #32a7f9;
+  background-color: #e9f7fe;
+  border-color: #bbe5fc;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 15px 55px;
+  margin-top: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.distributeVal_button1 {
+  background-color: #1aa4f8;
+  color: white;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 600;
+  padding: 15px 55px;
+  border-radius: 10px;
+}
+
+.distributeValidator_container_body span {
+  color: #38c572;
+  margin-right: 15px;
+  font-size: 15px;
+}
