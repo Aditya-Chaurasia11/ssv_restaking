@@ -4,10 +4,19 @@
 
 /* index.css */
 :root {
-  --background-color-light: #f4f7fa;
+  --background-color-light: #101419;
   --text-color-light: #000000;
   --background-color-dark: #000000;
   --text-color-dark: #ffffff;
+}
+
+
+.green{
+  color: #38c572;
+}
+
+.red{
+  color: red;
 }
 
 body {

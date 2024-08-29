@@ -8,6 +8,9 @@ import DistributionMethod from "./components/distributionMethod";
 import DragComponent from "./components/DragDrop2/DragComponent";
 import Temp from "./pages/Temp";
 import { MintNFT } from "./pages/mint";
+import Temp2 from "./pages/Temp2";
+import Temp3 from "./pages/Temp3";
+import ChooseClustor from "./pages/ChooseClustor";
 
 function App() {
   return (
@@ -25,17 +28,23 @@ function App() {
             element={<ChooseOperator />}
           ></Route>
           <Route
+            path="/join/choose-clustor"
+            element={<ChooseClustor />}
+          ></Route>
+          {/* <Route
             path="/join/validator/distribution-method"
             element={<DistributionMethod />}
-          ></Route>
-          <Route
+          ></Route> */}
+          {/* <Route
             path="/join/validator/upload-keystore"
             element={<DragComponent />}
-          ></Route>
+          ></Route> */}
 
           <Route path="/temp" element={<Temp />}></Route>
 
           <Route path="/temp2" element={<MintNFT />}></Route>
+          <Route path="/temp3" element={<Temp2 />}></Route>
+          <Route path="/temp4" element={<Temp3 />}></Route>
         </Routes>
 
         <ToastContainer />

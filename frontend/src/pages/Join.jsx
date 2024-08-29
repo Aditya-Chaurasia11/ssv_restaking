@@ -5,12 +5,14 @@ import JoinCard from "../components/JoinCard";
 import DistributeValidator from "../components/distributeValidator";
 import DistributionMethod from "../components/distributionMethod";
 import "./join.css";
+import ChooseClustor from "./ChooseClustor";
 
 const Join = () => {
   return (
     <>
       <div className="join_container">
-        <JoinCard />
+        {/* <JoinCard /> */}
+        <ChooseClustor/>
       </div>
     </>
   );
