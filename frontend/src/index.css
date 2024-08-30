@@ -2,34 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* index.css */
-:root {
-  --background-color-light: #101419;
-  --text-color-light: #000000;
-  --background-color-dark: #000000;
-  --text-color-dark: #ffffff;
-}
-
-
-.green{
+.green {
   color: #38c572;
 }
 
-.red{
+.red {
   color: red;
 }
 
 body {
-  background-color: var(--background-color-light);
-  color: var(--text-color-light);
+  background-color: #011627;
+  color: #ffffff;
 }
-
-body.dark {
-  background-color: var(--background-color-dark);
-  color: var(--text-color-dark);
-}
-
-
-
-
-

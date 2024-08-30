@@ -15,10 +15,13 @@ import Button from "@mui/material/Button";
 import Radio from "@mui/material/Radio";
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./choosecluster.css";
+import { useNavigate } from "react-router-dom";
 
-const ChooseClustor = () => {
+const ChooseClustor = ({ func, setDistMethod }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRow] = useState([]);
@@ -28,6 +31,7 @@ const ChooseClustor = () => {
   const [selectedOperatorData, setSelectedOperatorData] = useState(null);
   const [operatorNames, setOperatorNames] = useState({});
   const [currentOperatorIds, setCurrentOperatorIds] = useState([]);
+  const navigate = useNavigate();
 
   const handleClick = (event, operatorIds) => {
     setAnchorEl(event.currentTarget);
@@ -71,8 +75,14 @@ const ChooseClustor = () => {
   const handleLogData = () => {
     if (selectedOperatorData) {
       console.log("Selected Operator Data:", selectedOperatorData);
+      func(selectedOperatorData);
+      setDistMethod(true);
+
+      // navigate("/distribution-method");
     } else {
-      console.log("No operator selected");
+      toast.warn(`Select atleast one cluster`, {
+        position: "bottom-right",
+      });
     }
   };
 
@@ -138,16 +148,15 @@ const ChooseClustor = () => {
     );
   };
 
-
   const copyToClipboard = (owner) => {
     navigator.clipboard.writeText(owner);
-    // toast.success(`Copied ${TBAaddress.slice(0, 10)}...`, {
-    //   position: "bottom-right",
-    // });
+    toast.success(`Copied ${owner?.slice(0, 10)}...`, {
+      position: "bottom-right",
+    });
   };
 
   return (
-    <div>
+    <div className="chooseclustor_container_upper_conatiner">
       <div className="chooseclustor_container_upper">
         <h2>Clusters</h2>
         <TextField
@@ -159,7 +168,7 @@ const ChooseClustor = () => {
           sx={{
             // marginBottom: "1rem",
             marginTop: "30px",
-            backgroundColor: "#101419",
+            backgroundColor: "#0a2b3c",
             width: "100%",
             color: "white",
             "& .MuiInputBase-root": {
@@ -183,7 +192,7 @@ const ChooseClustor = () => {
             // borderRadius: "10px",
             boxShadow: "none",
             border: "1px solid #69757d",
-            backgroundColor: "#101419",
+            backgroundColor: "#0a2b3c",
           }}
         >
           <TableContainer sx={{ maxHeight: 700, color: "white" }}>
@@ -194,7 +203,7 @@ const ChooseClustor = () => {
                 color: "white",
                 "& .MuiTableCell-root": {
                   color: "white",
-                  backgroundColor: "#101419",
+                  backgroundColor: "#0a2b3c",
                 },
                 "& .MuiTableRow-root": {
                   color: "#6c757d",
@@ -248,7 +257,7 @@ const ChooseClustor = () => {
                         <TableCell align="center">
                           <div
                             className="owner_comp"
-                            onClick={copyToClipboard(row?.owner)}
+                            onClick={() => copyToClipboard(row?.owner)}
                           >
                             {row?.owner
                               ? `${row?.owner?.slice(
@@ -372,7 +381,7 @@ const ChooseClustor = () => {
                 setRowsPerPage(+event.target.value)
               }
               sx={{
-                backgroundColor: "#101419",
+                backgroundColor: "#0a2b3c",
                 color: "white",
                 "& .MuiTablePagination-selectLabel": {
                   color: "white",

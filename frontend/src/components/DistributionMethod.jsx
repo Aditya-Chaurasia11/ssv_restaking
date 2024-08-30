@@ -3,13 +3,13 @@ import disMetImg from "../assets/disMethodImg.svg";
 import "./distributionMethod.css";
 import { useNavigate } from "react-router-dom";
 
-const DistributionMethod = ({ funct }) => {
+const DistributionMethod = ({ data }) => {
   const navigate = useNavigate();
 
-  // const handleOnlineClick = () => {
-  //   // navigate("/join/validator/upload-keystore");
-  //   funct(true);
-  // };
+  const handleOnlineClick = () => {
+    if (data) navigate("/upload-keystore", { state: data });
+    console.log("disMethd", data);
+  };
 
   return (
     <div className="distributionMethod_container_upper">
@@ -27,7 +27,7 @@ const DistributionMethod = ({ funct }) => {
         <div className="distributionMethod_container_footer">
           <p>Select your preferred method to split your key:</p>
           <div className="distributionMethod_container_footer_button_container">
-            <button onClick={funct}>Online</button>
+            <button onClick={handleOnlineClick}>Online</button>
             <button>Offline</button>
           </div>
         </div>

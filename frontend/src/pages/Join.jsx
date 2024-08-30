@@ -6,13 +6,15 @@ import DistributeValidator from "../components/distributeValidator";
 import DistributionMethod from "../components/distributionMethod";
 import "./join.css";
 import ChooseClustor from "./ChooseClustor";
+import RestakingInfoCard from "../components/RestakingInfoCard";
 
 const Join = () => {
   return (
     <>
       <div className="join_container">
         {/* <JoinCard /> */}
-        <ChooseClustor/>
+        {/* <ChooseClustor/> */}
+        <RestakingInfoCard/>
       </div>
     </>
   );

@@ -7,19 +7,21 @@
   align-items: center;
   padding: 2rem;
   border-radius: 15px;
-  background-color: white;
+  /* background-color: #0a2b3c; */
+  background-color: #0a2b3c;
+  margin-top: 25px;
 }
 
-.distributionMethod_container_upper{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 85vh;
+.distributionMethod_container_upper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
 }
 
 .distributionMethod_container img {
   margin-top: 20px;
-  width: 90%;
+  width: 75%;
 }
 
 .distributionMethod_container_header h2 {
@@ -33,9 +35,9 @@
   margin-top: 10px;
 }
 
-.distributionMethod_container_footer{
-    width: 100%;
-    margin-top: 20px;
+.distributionMethod_container_footer {
+  width: 100%;
+  margin-top: 20px;
 }
 
 .distributionMethod_container_footer p {
@@ -47,12 +49,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .distributionMethod_container_footer_button_container button {
   color: #32a7f9;
-  background-color: #e9f7fe;
+  background-color: #023a5c;
   border-color: #bbe5fc;
   font-size: 17px;
   font-weight: 600;
