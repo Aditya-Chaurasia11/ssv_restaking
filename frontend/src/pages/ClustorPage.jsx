@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import ChooseClustor from "./ChooseClustor";
-import RestakingInfoCard from "../components/RestakingInfoCard";
+import ChooseClustor from "../components/ChooseClustor";
 import DistributionMethod from "../components/distributionMethod";
 
 const ClustorPage = () => {

@@ -38,6 +38,7 @@
     "react-virtuoso": "^4.10.1",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "ssv-keys": "github:ssvlabs/ssv-keys",
+    "ssv-scanner": "github:ssvlabs/ssv-scanner",
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.2.0",
     "styled-components": "^6.1.12",
