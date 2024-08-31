@@ -8,43 +8,41 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function DragComponent() {
   const location = useLocation();
   const receivedData = location.state;
+  const navigate = useNavigate();
 
-  const [ownerLicense, setOwnerLicense] = useState([]);
-  const [textValues, setTextValues] = useState([]); // State to hold the values of the text inputs
-  const [showPasswords, setShowPasswords] = useState([]); // State to hold the visibility status of each input
+  const [filesData, setFilesData] = useState([]);
+  const [operatorKey, setOperatorKey] = useState([]);
 
   const uploadFiles = (files) => {
-    setOwnerLicense((prevFiles) => [...prevFiles, ...files]);
-    setTextValues((prevValues) => [
-      ...prevValues,
-      ...files.map(() => ""), // Initialize text inputs for new files
-    ]);
-    setShowPasswords((prevShow) => [
-      ...prevShow,
-      ...files.map(() => false), // Initialize visibility status for new files
-    ]);
+    const newFilesData = files.map((file) => ({
+      file: file,
+      password: "",
+      showPassword: false,
+    }));
+    setFilesData((prevData) => [...prevData, ...newFilesData]);
   };
 
   const deleteFile = (index) => {
-    setOwnerLicense((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    setTextValues((prevValues) => prevValues.filter((_, i) => i !== index)); // Remove corresponding text input
-    setShowPasswords((prevShow) => prevShow.filter((_, i) => i !== index)); // Remove corresponding visibility status
+    setFilesData((prevData) => prevData.filter((_, i) => i !== index));
   };
 
   const handleInputChange = (index, value) => {
-    const updatedValues = [...textValues];
-    updatedValues[index] = value;
-    setTextValues(updatedValues); // Update the text input value for the specific file
+    const updatedFilesData = [...filesData];
+    updatedFilesData[index].password = value;
+    setFilesData(updatedFilesData);
   };
 
   const handleClickShowPassword = (index) => {
-    const updatedShowPasswords = [...showPasswords];
-    updatedShowPasswords[index] = !updatedShowPasswords[index];
-    setShowPasswords(updatedShowPasswords); // Toggle visibility for the specific input field
+    const updatedFilesData = [...filesData];
+    updatedFilesData[index].showPassword =
+      !updatedFilesData[index].showPassword;
+    setFilesData(updatedFilesData);
   };
 
   const handleMouseDownPassword = (event) => {
@@ -52,26 +50,51 @@ export default function DragComponent() {
   };
 
   const printJsonFiles = () => {
-    ownerLicense.forEach((file, index) => {
-      if (file.content) {
-        try {
-          const jsonContent = JSON.parse(file.content);
-          console.log(
-            `Content of ${file.name}:`,
-            JSON.stringify(jsonContent, null, 2)
-          );
-          console.log(`Associated input value: ${textValues[index]}`); // Log the corresponding text input value
-        } catch (error) {
-          console.error(`Error parsing JSON file ${file.name}:`, error.message);
-        }
-      } else {
-        console.warn(`File ${file.name} has no content to parse.`);
-      }
+    console.log(filesData);
+    navigate("/temp", {
+      state: { filesData, operatorKey, receivedData },
     });
+
+    // filesData.forEach((data, index) => {
+    //   const file = data.file;
+    //   if (file.content) {
+    //     try {
+    //       const jsonContent = JSON.parse(file.content);
+    //       console.log(
+    //         `Content of ${file.name}:`,
+    //         JSON.stringify(jsonContent, null, 2)
+    //       );
+    //       console.log(`Associated password: ${data.password}`);
+    //     } catch (error) {
+    //       console.error(`Error parsing JSON file ${file.name}:`, error.message);
+    //     }
+    //   } else {
+    //     console.warn(`File ${file.name} has no content to parse.`);
+    //   }
+    // });
+  };
+
+  const operatorIds = [1, 2, 3, 4];
+  const getOperatorKeys = async () => {
+    try {
+      const array = [];
+
+      for (const id of operatorIds) {
+        const response = await axios.get(
+          `https://api.ssv.network/api/v4/holesky/operators/${id}`
+        );
+        array.push(response.data.public_key);
+      }
+      setOperatorKey(array);
+      console.log(array);
+    } catch (error) {
+      console.error("Error fetching operator data:", error);
+    }
   };
 
   useEffect(() => {
     console.log("drag", receivedData);
+    getOperatorKeys();
   }, [receivedData]);
 
   return (
@@ -83,17 +106,17 @@ export default function DragComponent() {
           </h2>
         </div>
         <CustomDragDrop
-          ownerLicense={ownerLicense}
+          ownerLicense={filesData.map((data) => data.file)}
           onUpload={uploadFiles}
           onDelete={deleteFile}
           formats={["json"]}
         />
-        {ownerLicense.length > 0 && (
+        {filesData.length > 0 && (
           <div className="mt-4 space-y-2">
             <h2 className="text-[#97a5ba] text-[16px] font-[500] mt-[30px] mb-[1px]">
               Keystore Password
             </h2>
-            {ownerLicense.map((_, index) => (
+            {filesData.map((data, index) => (
               <div key={index}>
                 <FormControl
                   sx={{
@@ -111,8 +134,8 @@ export default function DragComponent() {
                   </InputLabel>
                   <OutlinedInput
                     id={`outlined-adornment-password-${index}`}
-                    type={showPasswords[index] ? "text" : "password"}
-                    value={textValues[index]}
+                    type={data.showPassword ? "text" : "password"}
+                    value={data.password}
                     onChange={(e) => handleInputChange(index, e.target.value)}
                     endAdornment={
                       <InputAdornment position="end">
@@ -123,10 +146,10 @@ export default function DragComponent() {
                           edge="end"
                           sx={{ color: "white" }}
                         >
-                          {showPasswords[index] ? (
-                            <VisibilityOff sx={{ color: "white" }} />
-                          ) : (
+                          {data.showPassword ? (
                             <Visibility sx={{ color: "white" }} />
+                          ) : (
+                            <VisibilityOff sx={{ color: "white" }} />
                           )}
                         </IconButton>
                       </InputAdornment>

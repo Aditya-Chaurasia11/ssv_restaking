@@ -12,5 +12,11 @@
 
 body {
   background-color: #011627;
+  /* background: linear-gradient(
+    219deg,
+    rgba(73, 26, 113, 1) 0%,
+    rgba(31, 13, 51, 1) 52%,
+    rgba(31, 13, 51, 1) 55%
+  ); */
   color: #ffffff;
 }
