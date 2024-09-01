@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { SSVKeys, KeyShares, KeySharesItem, SSVKeysException } from "ssv-keys";
 import { ClusterScanner, NonceScanner } from "ssv-scanner";
 
+import { useWriteContract } from "wagmi";
+
 export default function DragComponent() {
   const location = useLocation();
   const receivedData = location.state;
@@ -22,9 +24,13 @@ export default function DragComponent() {
   const [operIds, setOperIDs] = useState([]);
   // const [operatorKeys, setOperatorKeys] = useState([]);
   const [keystore, setKeyStore] = useState(null);
+  const [validatorPublicKey, setValidatorPublicKey] = useState(null);
   const [keystorePassword, setKeystorePassword] = useState("");
   const [ownerAdd, setOwnerAdd] = useState("");
   const [nonce, setNonce] = useState(null);
+  const [ClusterData, setClusterData] = useState(null);
+
+  const { data: hash, writeContract } = useWriteContract();
 
   const uploadFiles = (files) => {
     const newFilesData = files.map((file) => ({
@@ -36,11 +42,15 @@ export default function DragComponent() {
 
     if (updatedFilesData.length > 0) {
       const jsonContent = JSON.parse(updatedFilesData[0]?.file.content);
-      console.log(JSON.stringify(jsonContent, null, 2));
+      setValidatorPublicKey(jsonContent.pubkey);
+      // console.log(jsonContent.pubkey);
+
+      // console.log(JSON.stringify(jsonContent, null, 2));
       if (jsonContent) {
         setKeyStore(JSON.stringify(jsonContent, null, 2));
       }
     }
+    // console.log(updatedFilesData);
     setFilesData(updatedFilesData);
   };
 
@@ -86,16 +96,16 @@ export default function DragComponent() {
     const encryptedShares = await ssvKeys.buildShares(privateKey, operators);
 
     const keySharesItem = new KeySharesItem();
-    //   console.log(keySharesItem.toJson()); // Log the data to the console
+    //   // console.log(keySharesItem.toJson()); // Log the data to the console
     await keySharesItem.update({ operators });
-    //   console.log(keySharesItem.toJson()); // Log the data to the console again after update
+    //   // console.log(keySharesItem.toJson()); // Log the data to the console again after update
 
     await keySharesItem.update({
       ownerAddress: ownerAdd,
       ownerNonce: nonce,
       publicKey,
     });
-    //   console.log(keySharesItem.toJson()); // Log updated data
+    //   // console.log(keySharesItem.toJson()); // Log updated data
 
     // 3. Build final web3 transaction payload and update keyshares file with payload data
     await keySharesItem.buildPayload(
@@ -114,7 +124,112 @@ export default function DragComponent() {
     const keyShares = new KeyShares();
     keyShares.add(keySharesItem);
     // Log the final key shares data instead of saving to a file
-    console.log(keyShares.toJson());
+    // console.log(keyShares.toJson());
+    const keysharesData = JSON.parse(keyShares.toJson());
+    console.log(keysharesData.shares[0].payload);
+
+    // testing write function
+
+    const abi = [
+      {
+        inputs: [
+          {
+            internalType: "bytes",
+            name: "publicKey",
+            type: "bytes",
+          },
+          {
+            internalType: "uint64[]",
+            name: "operatorIds",
+            type: "uint64[]",
+          },
+          {
+            internalType: "bytes",
+            name: "sharesData",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256",
+          },
+          {
+            components: [
+              {
+                internalType: "uint32",
+                name: "validatorCount",
+                type: "uint32",
+              },
+              {
+                internalType: "uint64",
+                name: "networkFeeIndex",
+                type: "uint64",
+              },
+              {
+                internalType: "uint64",
+                name: "index",
+                type: "uint64",
+              },
+              {
+                internalType: "bool",
+                name: "active",
+                type: "bool",
+              },
+              {
+                internalType: "uint256",
+                name: "balance",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct ISSVNetworkCore.Cluster",
+            name: "cluster",
+            type: "tuple",
+          },
+        ],
+        name: "registerValidator",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ];
+
+    console.log([
+      keysharesData.shares[0].payload.publicKey,
+      operIds,
+      keysharesData.shares[0].payload.sharesData,
+      0,
+      {
+        validatorCount: ClusterData.validatorCount,
+        networkFeeIndex: ClusterData.networkFeeIndex,
+        index: ClusterData.index,
+        active: ClusterData.active,
+        balance: ClusterData.balance,
+      },
+    ]);
+
+    try {
+      writeContract({
+        address: "0x38A4794cCEd47d3baf7370CcC43B560D3a1beEFA",
+        abi,
+        functionName: "registerValidator",
+        args: [
+          keysharesData.shares[0].payload.publicKey,
+          operIds,
+          keysharesData.shares[0].payload.sharesData,
+          0,
+          {
+            validatorCount: ClusterData.validatorCount,
+            networkFeeIndex: ClusterData.networkFeeIndex,
+            index: ClusterData.index,
+            active: ClusterData.active,
+            balance: ClusterData.balance,
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    console.log("done");
   }
 
   const getNonce = async () => {
@@ -127,21 +242,29 @@ export default function DragComponent() {
         operatorIds: receivedData?.operatorIds, // this is a list of operator IDs chosen by the owner for their cluster
         network: "holesky",
       };
+
+      // ClusterScanner is initialized with the given parameters
+      const clusterScanner = new ClusterScanner(params);
+      // Return the Cluster Snapshot
+      const result = await clusterScanner.run(params.operatorIds);
+      setClusterData(result.cluster);
+      console.log(result.cluster);
+
       if (receivedData) {
         console.log(params);
 
         const nonceScanner = new NonceScanner(params);
         // Return the owner nonce
         const nextNonce = await nonceScanner.run();
-        console.log("asdasdafaf");
+        // console.log("asdasdafaf");
 
-        console.log("Next Nonce:", nextNonce);
+        // console.log("Next Nonce:", nextNonce);
         setNonce(nextNonce);
       } else {
-        console.log("no data gett");
+        // console.log("no data gett");
       }
     } catch (error) {
-      console.log("getting error to get nonce", error);
+      // console.log("getting error to get nonce", error);
     }
   };
 
@@ -150,7 +273,7 @@ export default function DragComponent() {
   }, [receivedData]);
 
   const handleClick = () => {
-    console.log(filesData);
+    // console.log(filesData);
     if (nonce && operatorKey && filesData.length > 0) {
       if (filesData[0]?.password) void main();
     }
@@ -168,14 +291,14 @@ export default function DragComponent() {
         array.push(response.data.public_key);
       }
       setOperatorKey(array);
-      console.log(array);
+      // console.log(array);
     } catch (error) {
       console.error("Error fetching operator data:", error);
     }
   };
 
   useEffect(() => {
-    console.log("drag", receivedData);
+    // console.log("drag", receivedData);
     getOperatorKeys();
   }, [receivedData]);
 

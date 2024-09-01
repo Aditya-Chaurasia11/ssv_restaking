@@ -8,11 +8,7 @@ function Home() {
   const navigate = useNavigate();
 
   const navigatehandler = () => {
-    navigate("/collection");
-  };
-
-  const navigatehandlerGallery = () => {
-    navigate("/gallery");
+    navigate("/restake");
   };
 
   return (
@@ -26,10 +22,9 @@ function Home() {
             content.
           </p>
           <div className="home_container_button">
-            <button className="button_github" onClick={navigatehandlerGallery}>
+            <button className="button_github" onClick={navigatehandler}>
               Explore now
             </button>
-            
           </div>
         </div>
         <div className="home_container_right">

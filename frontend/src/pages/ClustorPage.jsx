@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ChooseClustor from "../components/ChooseClustor";
-import DistributionMethod from "../components/distributionMethod";
+import DistributionMethod from "../components/DistributionMethod";
 
 const ClustorPage = () => {
   const [showDisMethod, setDistMethod] = useState(false);
