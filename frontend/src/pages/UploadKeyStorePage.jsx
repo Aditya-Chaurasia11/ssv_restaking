@@ -13,7 +13,14 @@ import { useNavigate } from "react-router-dom";
 import { SSVKeys, KeyShares, KeySharesItem, SSVKeysException } from "ssv-keys";
 import { ClusterScanner, NonceScanner } from "ssv-scanner";
 
-import { useWriteContract } from "wagmi";
+// import { useWriteContract } from "wagmi";
+// import { useReadContract } from "wagmi";
+import { writeContract } from "@wagmi/core";
+
+import { http, createConfig } from "@wagmi/core";
+import { mainnet, holesky } from "@wagmi/core/chains";
+import { connect } from "@wagmi/core";
+import { injected } from "@wagmi/connectors";
 
 export default function DragComponent() {
   const location = useLocation();
@@ -30,7 +37,7 @@ export default function DragComponent() {
   const [nonce, setNonce] = useState(null);
   const [ClusterData, setClusterData] = useState(null);
 
-  const { data: hash, writeContract } = useWriteContract();
+  // const { data: hash, writeContract } = useWriteContract();
 
   const uploadFiles = (files) => {
     const newFilesData = files.map((file) => ({
@@ -126,110 +133,143 @@ export default function DragComponent() {
     // Log the final key shares data instead of saving to a file
     // console.log(keyShares.toJson());
     const keysharesData = JSON.parse(keyShares.toJson());
-    console.log(keysharesData.shares[0].payload);
+    console.log(
+      "keysharesData?.shares[0].payload",
+      keysharesData?.shares[0].payload
+    );
 
     // testing write function
 
+    const config = createConfig({
+      chains: [mainnet, holesky],
+      transports: {
+        [mainnet.id]: http(),
+        [holesky.id]: http(),
+      },
+    });
+
     const abi = [
       {
-        inputs: [
+        "inputs": [
           {
-            internalType: "bytes",
-            name: "publicKey",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "publicKey",
+            "type": "bytes"
           },
           {
-            internalType: "uint64[]",
-            name: "operatorIds",
-            type: "uint64[]",
+            "internalType": "uint64[]",
+            "name": "operatorIds",
+            "type": "uint64[]"
           },
           {
-            internalType: "bytes",
-            name: "sharesData",
-            type: "bytes",
+            "internalType": "bytes",
+            "name": "sharesData",
+            "type": "bytes"
           },
           {
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
           },
           {
-            components: [
+            "components": [
               {
-                internalType: "uint32",
-                name: "validatorCount",
-                type: "uint32",
+                "internalType": "uint32",
+                "name": "validatorCount",
+                "type": "uint32"
               },
               {
-                internalType: "uint64",
-                name: "networkFeeIndex",
-                type: "uint64",
+                "internalType": "uint64",
+                "name": "networkFeeIndex",
+                "type": "uint64"
               },
               {
-                internalType: "uint64",
-                name: "index",
-                type: "uint64",
+                "internalType": "uint64",
+                "name": "index",
+                "type": "uint64"
               },
               {
-                internalType: "bool",
-                name: "active",
-                type: "bool",
+                "internalType": "bool",
+                "name": "active",
+                "type": "bool"
               },
               {
-                internalType: "uint256",
-                name: "balance",
-                type: "uint256",
-              },
+                "internalType": "uint256",
+                "name": "balance",
+                "type": "uint256"
+              }
             ],
-            internalType: "struct ISSVNetworkCore.Cluster",
-            name: "cluster",
-            type: "tuple",
-          },
+            "internalType": "struct ISSVNetworkCore.Cluster",
+            "name": "cluster",
+            "type": "tuple"
+          }
         ],
-        name: "registerValidator",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
+        "name": "registerValidator",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
       },
     ];
+    console.log("getting data in coonect ", ClusterData);
 
-    console.log([
-      keysharesData.shares[0].payload.publicKey,
+    console.log("getting data while wagmi integration", [
+      keysharesData.shares[0]?.payload.publicKey,
       operIds,
-      keysharesData.shares[0].payload.sharesData,
+      keysharesData.shares[0]?.payload.sharesData,
       0,
-      {
-        validatorCount: ClusterData.validatorCount,
-        networkFeeIndex: ClusterData.networkFeeIndex,
-        index: ClusterData.index,
-        active: ClusterData.active,
-        balance: ClusterData.balance,
-      },
+      
+        ClusterData?.validatorCount,
+        ClusterData?.networkFeeIndex,
+        ClusterData?.index,
+        Boolean(ClusterData?.active),
+        ClusterData?.balance
+      
     ]);
 
-    try {
-      writeContract({
-        address: "0x38A4794cCEd47d3baf7370CcC43B560D3a1beEFA",
+    // try {
+    console.log("wagmi integration flag1");
+    // const connector = getConnectorClient();
+    // if (!connector?.isConnected) {
+    //   await connector?.connect();
+    // }
+
+    const getConn = await connect(config, {
+      chainId: holesky.id,
+      connector: injected(),
+    });
+    console.log(getConn);
+
+    if (getConn.accounts[0]) {
+      const result = await writeContract(config, {
         abi,
+        address: "0x38A4794cCEd47d3baf7370CcC43B560D3a1beEFA",
         functionName: "registerValidator",
         args: [
-          keysharesData.shares[0].payload.publicKey,
+          `${keysharesData.shares[0]?.payload.publicKey}`,
           operIds,
-          keysharesData.shares[0].payload.sharesData,
+          `${keysharesData.shares[0]?.payload.sharesData}`,
           0,
-          {
-            validatorCount: ClusterData.validatorCount,
-            networkFeeIndex: ClusterData.networkFeeIndex,
-            index: ClusterData.index,
-            active: ClusterData.active,
-            balance: ClusterData.balance,
-          },
+          // (
+          [
+            ClusterData?.validatorCount,
+            Number(ClusterData?.networkFeeIndex),
+            Number(ClusterData?.index),
+            Boolean(ClusterData?.active),
+            Number(ClusterData?.balance)
+          ]
+          // )
         ],
       });
-    } catch (error) {
-      console.log(error);
+      console.log(result);
     }
-    console.log("done");
+
+    console.log("wagmi integration flag2");
+
+    // console.log("write contract", result);
+    // } catch (error) {
+    //   console.log("getting error while wagmi integration", error);
+    // }
+    // console.log("done");
   }
 
   const getNonce = async () => {
@@ -243,12 +283,18 @@ export default function DragComponent() {
         network: "holesky",
       };
 
+      const getdata = await axios.get(
+        `https://api.ssv.network/api/v4/holesky/clusters/owner/${receivedData?.owner}/operators/${receivedData?.operatorIds}`
+      );
+      console.log("getdata", getdata?.data.cluster);
+
       // ClusterScanner is initialized with the given parameters
-      const clusterScanner = new ClusterScanner(params);
-      // Return the Cluster Snapshot
-      const result = await clusterScanner.run(params.operatorIds);
-      setClusterData(result.cluster);
-      console.log(result.cluster);
+      // const clusterScanner = new ClusterScanner(params);
+      // // Return the Cluster Snapshot
+      // const result = await clusterScanner.run(receivedData?.operatorIds);
+      setClusterData(getdata?.data.cluster);
+      // console.log("cluster data", result.cluster);
+      // console.log("cluster data result", result);
 
       if (receivedData) {
         console.log(params);

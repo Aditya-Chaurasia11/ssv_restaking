@@ -6,6 +6,7 @@ import UploadKeyStorePage from "./pages/UploadKeyStorePage";
 import "react-toastify/dist/ReactToastify.css";
 import RestakingInfoCard from "./pages/RestakingInfoCard";
 import ClustorPage from "./pages/ClustorPage";
+import { MintNFT } from "./pages/Temp";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             element={<UploadKeyStorePage />}
           ></Route>
           <Route path="/choose-clustor" element={<ClustorPage />}></Route>
+          <Route path="/temp" element={<MintNFT />}></Route>
         </Routes>
         <ToastContainer />
       </BrowserRouter>

@@ -93,7 +93,7 @@ const RestakingInfoCard = () => {
               },
             }}
           >
-            VIEW ON ETHERSCAN ->
+            VIEW ON ETHERSCAN {"->"}
           </Button>
         </div>
       ) : (
