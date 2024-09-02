@@ -56,3 +56,18 @@
   background-color: #2d3946;
   cursor: pointer;
 }
+
+.choose_clustor_noCluster {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 21px;
+  padding: 40px 5px;
+  background-color: #0a2b3c;
+  border-radius: 8px;
+}
+
+.chooseclustor_container_upper_upper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

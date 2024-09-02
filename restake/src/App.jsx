@@ -8,25 +8,26 @@ import RestakingInfoCard from "./pages/RestakingInfoCard";
 import ClustorPage from "./pages/ClustorPage";
 // import { MintNFT } from "./pages/Temp";
 import { Web3provider } from "./api/contextapi";
+import ChooseOperator from "./pages/Choose Operator/ChooseOperator";
 
 function App() {
   return (
     <>
       <Web3provider>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/restake" element={<RestakingInfoCard />}></Route>
-          <Route
-            path="/upload-keystore"
-            element={<UploadKeyStorePage />}
-          ></Route>
-          <Route path="/choose-clustor" element={<ClustorPage />}></Route>
-          {/* <Route path="/temp" element={<MintNFT />}></Route> */}
-        </Routes>
-        <ToastContainer />
-      </BrowserRouter>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/restake" element={<RestakingInfoCard />}></Route>
+            <Route
+              path="/upload-keystore"
+              element={<UploadKeyStorePage />}
+            ></Route>
+            <Route path="/choose-clustor" element={<ClustorPage />}></Route>
+            <Route path="/create-cluster" element={<ChooseOperator />}></Route>
+          </Routes>
+          <ToastContainer />
+        </BrowserRouter>
       </Web3provider>
     </>
   );

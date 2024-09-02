@@ -234,6 +234,8 @@ export default function DragComponent() {
   };
 
   useEffect(() => {
+    console.log("contract", contract);
+
     getNonce();
   }, [receivedData]);
 
