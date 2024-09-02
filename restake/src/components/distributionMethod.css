@@ -1,0 +1,65 @@
+.distributionMethod_container {
+  /* border: 1px solid red; */
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  border-radius: 15px;
+  /* background-color: #0a2b3c; */
+  background-color: #0a2b3c;
+  margin-top: 25px;
+}
+
+.distributionMethod_container_upper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+}
+
+.distributionMethod_container img {
+  margin-top: 20px;
+  width: 75%;
+}
+
+.distributionMethod_container_header h2 {
+  font-size: 22px;
+  font-weight: 650;
+}
+
+.distributionMethod_container_header p {
+  font-size: 17px;
+  width: 90%;
+  margin-top: 10px;
+}
+
+.distributionMethod_container_footer {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.distributionMethod_container_footer p {
+  font-size: 17px;
+  margin-top: 20px;
+}
+
+.distributionMethod_container_footer_button_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.distributionMethod_container_footer_button_container button {
+  color: #32a7f9;
+  background-color: #023a5c;
+  border-color: #bbe5fc;
+  font-size: 17px;
+  font-weight: 600;
+  width: 47%;
+  padding: 15px 55px;
+  border-radius: 10px;
+  cursor: pointer;
+}
