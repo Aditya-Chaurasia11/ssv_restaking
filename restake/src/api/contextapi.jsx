@@ -27,6 +27,7 @@ export const Web3provider = ({ children }) => {
           await provider.send("eth_requestAccounts");
           const signer = await provider.getSigner();
           const address = await signer.getAddress();
+          setAccount(address);
 
           const network = await provider.getNetwork();
           if (network.chainId !== 0x4268) {
@@ -46,7 +47,6 @@ export const Web3provider = ({ children }) => {
             }
           }
 
-          setAccount(address);
           let contractAddress = "0x38A4794cCEd47d3baf7370CcC43B560D3a1beEFA";
           const contract = new ethers.Contract(contractAddress, abi, signer);
           setContract(contract);

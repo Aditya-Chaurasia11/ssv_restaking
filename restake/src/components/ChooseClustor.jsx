@@ -95,8 +95,8 @@ const ChooseClustor = ({ func, setDistMethod }) => {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    if (account) getData();
+  }, [account]);
 
   const getData = async () => {
     const queryData = {
@@ -104,7 +104,7 @@ const ChooseClustor = ({ func, setDistMethod }) => {
       variables: {
         perPage: 500,
         offset: 0,
-        filter: "account",
+        filter: account,
       },
       query: `
         query clusters($perPage: Int!, $offset: Int!, $filter: String!) {
@@ -136,7 +136,7 @@ const ChooseClustor = ({ func, setDistMethod }) => {
           },
         }
       );
-      const data = response?.data?.data?.clusters || [];
+      const data = response?.data?.data?.clusters;
       setRow(data);
       console.log(data);
       setFilteredRows(data);
@@ -170,17 +170,21 @@ const ChooseClustor = ({ func, setDistMethod }) => {
         <div className="chooseclustor_container_upper_upper">
           <h2>Clusters</h2>
           <Button
-            variant="contained"
-            color="primary"
+            variant="outlined"
             onClick={clusterNavigate}
             sx={{
-              backgroundColor: "#007bff",
+              color: "#007bff",
+              fontSize: "15px",
               "&:hover": {
-                backgroundColor: "#0056b3",
+                backgroundColor: "#007bff",
+                color: "white",
               },
             }}
           >
-            Create <IoMdAdd />
+            Create{" "}
+            <span className="ml-1.5">
+              <IoMdAdd />
+            </span>
           </Button>
         </div>
         <TextField
