@@ -14,6 +14,8 @@ import noImg from "../../assets/image.png";
 import { useNavigate } from "react-router-dom";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+
 // import PopoverContainer from "@idui/react-popover";
 
 const ChooseOperator = () => {
@@ -23,6 +25,7 @@ const ChooseOperator = () => {
   const [totalSelectedFee, setSelectedFee] = useState(0.0);
   const [upKeyStore, setUpKeyStore] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [num, setNum] = useState();
 
   const navigate = useNavigate();
 
@@ -81,8 +84,12 @@ const ChooseOperator = () => {
 
   const handleSelectedOperator = () => {
     console.log("Logged Data:", rightData);
-
-    navigate("/choose-clustor");
+    navigate("/create-cluster/upload-keystore", {
+      state: {
+        number: num,
+        data: rightData,
+      },
+    });
   };
 
   const countSelected = () => {
@@ -103,10 +110,6 @@ const ChooseOperator = () => {
   const updateTotalFee = (selectedData) => {
     const totalFee = calculateTotalFee(selectedData);
     setSelectedFee(totalFee.toFixed(2));
-  };
-
-  const setUpKeyFunction = () => {
-    if (!upKeyStore) setUpKeyStore(true);
   };
 
   return (
@@ -151,10 +154,9 @@ const ChooseOperator = () => {
               }}
             >
               <Table
-                sx={{ minWidth: 650, color: "white" }}
-                stickyHeader
-                aria-label="sticky table"
                 sx={{
+                  minWidth: 650,
+                  color: "white",
                   color: "white",
                   "& .MuiTableCell-root": {
                     color: "white",
@@ -170,6 +172,8 @@ const ChooseOperator = () => {
                     color: "#6c757d",
                   },
                 }}
+                stickyHeader
+                aria-label="sticky table"
               >
                 <TableHead>
                   <TableRow>
@@ -342,7 +346,36 @@ const ChooseOperator = () => {
             ))}
           </div>
           <div className="chooseOperator_right_side_bottom_container">
-            <hr></hr>
+            {/* <hr></hr> */}
+            {/* <input placeholder="Enter number" type="number"></input> */}
+            <TextField
+              id="outlined-basic"
+              label="Enter number"
+              variant="outlined"
+              value={num}
+              onChange={(e) => setNum(e.target.value)}
+              sx={{
+                width: "100%",
+                "& .MuiInputBase-input": {
+                  color: "white", // Text color
+                },
+                "& .MuiInputLabel-root": {
+                  color: "white", // Label color
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "white", // Border color when not focused
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "white", // Border color on hover
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "white", // Border color when focused
+                  },
+                },
+              }}
+            />
+
             <div className="chooseOperator_right_side_bottom_container_header">
               <p>Operators Yearly Fee </p>
               <h2>{totalSelectedFee} SSV</h2>

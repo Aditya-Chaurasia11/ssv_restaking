@@ -9,6 +9,7 @@ import ClustorPage from "./pages/ClustorPage";
 // import { MintNFT } from "./pages/Temp";
 import { Web3provider } from "./api/contextapi";
 import ChooseOperator from "./pages/Choose Operator/ChooseOperator";
+import UploadKeystoreCluster from "./pages/UploadKeystoreCluster";
 
 function App() {
   return (
@@ -25,6 +26,10 @@ function App() {
             ></Route>
             <Route path="/choose-clustor" element={<ClustorPage />}></Route>
             <Route path="/create-cluster" element={<ChooseOperator />}></Route>
+            <Route
+              path="/create-cluster/upload-keystore"
+              element={<UploadKeystoreCluster />}
+            ></Route>
           </Routes>
           <ToastContainer />
         </BrowserRouter>

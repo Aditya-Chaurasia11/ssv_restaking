@@ -102,7 +102,7 @@ const ChooseClustor = ({ func, setDistMethod }) => {
     const queryData = {
       operationName: "clusters",
       variables: {
-        perPage: 500,
+        perPage: 5000,
         offset: 0,
         filter: account,
       },
