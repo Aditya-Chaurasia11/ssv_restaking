@@ -16,6 +16,15 @@ import { ClusterScanner, NonceScanner } from "ssv-scanner";
 import { useWeb3 } from "../api/contextapi";
 import { Contract, ethers } from "ethers";
 
+import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import CloseIcon from "@mui/icons-material/Close";
+import Typography from "@mui/material/Typography";
+
 export default function DragComponent() {
   const location = useLocation();
   const receivedData = location.state;
@@ -30,6 +39,7 @@ export default function DragComponent() {
   const [ownerAdd, setOwnerAdd] = useState("");
   const [nonce, setNonce] = useState(null);
   const [ClusterData, setClusterData] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const {
     account,
@@ -40,6 +50,22 @@ export default function DragComponent() {
     setContract,
     signer,
   } = useWeb3();
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+  }));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const uploadFiles = (files) => {
     const newFilesData = files.map((file) => ({
@@ -156,7 +182,6 @@ export default function DragComponent() {
     // console.log(keysharesData.shares[0]?.payload.publicKey);
 
     try {
-
       const SSVToken = new Contract(
         "0xad45A78180961079BFaeEe349704F411dfF947C6",
         erc20abi,

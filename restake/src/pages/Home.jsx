@@ -1,6 +1,6 @@
 // import "./App.css";
 import { useState, useEffect } from "react";
-import dashboard_img from "../assets/homepage_img.png";
+import dashboard_img from "../assets/home_page_img.png";
 import "./home.css";
 import { useNavigate } from "react-router-dom";
 
