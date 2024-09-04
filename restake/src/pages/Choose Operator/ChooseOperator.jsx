@@ -147,7 +147,7 @@ const ChooseOperator = () => {
               component={Paper}
               sx={{
                 maxHeight: 510,
-                backgroundColor: "#0b2a3c",
+                // backgroundColor: "#0b2a3c",
                 boxShadow: "none",
                 border: "1px solid #69757d",
                 backgroundColor: "gray",
@@ -156,7 +156,6 @@ const ChooseOperator = () => {
               <Table
                 sx={{
                   minWidth: 650,
-                  color: "white",
                   color: "white",
                   "& .MuiTableCell-root": {
                     color: "white",

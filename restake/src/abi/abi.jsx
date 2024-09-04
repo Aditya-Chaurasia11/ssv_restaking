@@ -59,6 +59,30 @@ const abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
+  {
+    type: "function",
+    name: "bulkRegisterValidator",
+    inputs: [
+      { name: "publicKeys", type: "bytes[]", internalType: "bytes[]" },
+      { name: "operatorIds", type: "uint64[]", internalType: "uint64[]" },
+      { name: "sharesData", type: "bytes[]", internalType: "bytes[]" },
+      { name: "amount", type: "uint256", internalType: "uint256" },
+      {
+        name: "cluster",
+        type: "tuple",
+        internalType: "struct ISSVNetworkCore.Cluster",
+        components: [
+          { name: "validatorCount", type: "uint32", internalType: "uint32" },
+          { name: "networkFeeIndex", type: "uint64", internalType: "uint64" },
+          { name: "index", type: "uint64", internalType: "uint64" },
+          { name: "active", type: "bool", internalType: "bool" },
+          { name: "balance", type: "uint256", internalType: "uint256" },
+        ],
+      },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
 ];
 
 export default abi;

@@ -21,7 +21,6 @@ export default function DragComponent() {
   const [filesData, setFilesData] = useState([]);
   const [operatorKey, setOperatorKey] = useState([]);
   const [operIds, setOperIDs] = useState([]);
-  // const [operatorKeys, setOperatorKeys] = useState([]);
   const [keystore, setKeyStore] = useState(null);
   const [validatorPublicKey, setValidatorPublicKey] = useState(null);
   const [keystorePassword, setKeystorePassword] = useState("");
@@ -43,14 +42,11 @@ export default function DragComponent() {
     if (updatedFilesData.length > 0) {
       const jsonContent = JSON.parse(updatedFilesData[0]?.file.content);
       setValidatorPublicKey(jsonContent.pubkey);
-      // console.log(jsonContent.pubkey);
 
-      // console.log(JSON.stringify(jsonContent, null, 2));
       if (jsonContent) {
         setKeyStore(JSON.stringify(jsonContent, null, 2));
       }
     }
-    // console.log(updatedFilesData);
     setFilesData(updatedFilesData);
   };
 
@@ -80,167 +76,152 @@ export default function DragComponent() {
   };
 
   async function main() {
-    // 1. Initialize SSVKeys SDK and read the keystore file
     const ssvKeys = new SSVKeys();
-    const { publicKey, privateKey } = await ssvKeys.extractKeys(
-      keystore,
-      keystorePassword
-    );
+    const keySharesArray = [];
 
-    const operators = operatorKey.map((operatorKey, index) => ({
-      id: operIds[index],
-      operatorKey,
-    }));
+    for (let i = 0; i < filesData.length; i++) {
+      const keystore = JSON.stringify(
+        JSON.parse(filesData[i].file.content),
+        null,
+        2
+      );
+      const keystorePassword = filesData[i].password;
 
-    // 2. Build shares from operator IDs and public keys
-    const encryptedShares = await ssvKeys.buildShares(privateKey, operators);
+      const { publicKey, privateKey } = await ssvKeys.extractKeys(
+        keystore,
+        keystorePassword
+      );
 
-    const keySharesItem = new KeySharesItem();
-    //   // console.log(keySharesItem.toJson()); // Log the data to the console
-    await keySharesItem.update({ operators });
-    //   // console.log(keySharesItem.toJson()); // Log the data to the console again after update
+      const operators = operatorKey.map((operatorKey, index) => ({
+        id: operIds[index],
+        operatorKey,
+      }));
 
-    await keySharesItem.update({
-      ownerAddress: ownerAdd,
-      ownerNonce: nonce,
-      publicKey,
-    });
-    //   // console.log(keySharesItem.toJson()); // Log updated data
+      const encryptedShares = await ssvKeys.buildShares(privateKey, operators);
 
-    // 3. Build final web3 transaction payload and update keyshares file with payload data
-    await keySharesItem.buildPayload(
-      {
-        publicKey,
-        operators,
-        encryptedShares,
-      },
-      {
+      const keySharesItem = new KeySharesItem();
+      await keySharesItem.update({ operators });
+      await keySharesItem.update({
         ownerAddress: ownerAdd,
         ownerNonce: nonce,
-        privateKey,
-      }
-    );
+        publicKey,
+      });
 
-    const keyShares = new KeyShares();
-    keyShares.add(keySharesItem);
-    // Log the final key shares data instead of saving to a file
-    console.log(keyShares.toJson());
-    const keysharesData = JSON.parse(keyShares.toJson());
-    console.log(
-      "keysharesData?.shares[0].payload",
-      keysharesData?.shares[0].payload
-    );
-
-    // testing write function
-
-    console.log("getting data in coonect ", ClusterData);
-
-    console.log("getting data while wagmi integration", [
-      keysharesData.shares[0]?.payload.publicKey,
-      operIds,
-      keysharesData.shares[0]?.payload.sharesData,
-      0,
-      ClusterData?.validatorCount,
-      ClusterData?.networkFeeIndex,
-      ClusterData?.index,
-      Boolean(ClusterData?.active),
-      ClusterData?.balance,
-    ]);
-
-    // try {
-    // console.log("wagmi integration flag1");
-    // const connector = getConnectorClient();
-    // if (!connector?.isConnected) {
-    //   await connector?.connect();
-    // }
-
-    // const getConn = await connect(config, {
-    //   chainId: holesky.id,
-    //   connector: injected(),
-    // });
-    // console.log(getConn);
-
-    // if (getConn.accounts[0]) {
-    try {
-      const result = await contract?.registerValidator(
-        keysharesData.shares[0]?.payload.publicKey,
-        operIds,
-        keysharesData.shares[0]?.payload.sharesData,
-        0,
-        [
-          ClusterData?.validatorCount,
-          Number(ClusterData?.networkFeeIndex),
-          Number(ClusterData?.index),
-          Boolean(ClusterData?.active),
-          Number(ClusterData?.balance),
-        ]
+      await keySharesItem.buildPayload(
+        {
+          publicKey,
+          operators,
+          encryptedShares,
+        },
+        {
+          ownerAddress: ownerAdd,
+          ownerNonce: nonce,
+          privateKey,
+        }
       );
-      console.log(result);
-    } catch (error) {
-      console.error("Transaction simulation failed:", error);
+
+      const keyShares = new KeyShares();
+      keyShares.add(keySharesItem);
+
+      const keysharesData = JSON.parse(keyShares.toJson());
+      keySharesArray.push(keysharesData);
+
+      console.log("keysharesData for file", i + 1, keysharesData);
     }
 
-    // }
+    if (filesData.length === 1) {
+      try {
+        const result = await contract?.registerValidator(
+          keySharesArray[0].shares[0]?.payload.publicKey,
+          operIds,
+          keySharesArray[0].shares[0]?.payload.sharesData,
+          0,
+          [
+            BigInt(ClusterData?.validatorCount),
+            BigInt(ClusterData?.networkFeeIndex),
+            BigInt(ClusterData?.index),
+            Boolean(ClusterData?.active),
+            BigInt(ClusterData?.balance),
+          ]
+        );
+        console.log(result);
+      } catch (error) {
+        console.error("Transaction simulation failed:", error);
+      }
+    } else {
+      // Log arrays for all files
+      console.log("multiple file check");
 
-    console.log("wagmi integration flag2");
+      const publicKeys = keySharesArray.map(
+        (item) => item.shares[0]?.payload.publicKey
+      );
+      const sharesData = keySharesArray.map(
+        (item) => item.shares[0]?.payload.sharesData
+      );
 
-    // console.log("write contract", result);
-    // } catch (error) {
-    //   console.log("getting error while wagmi integration", error);
-    // }
-    // console.log("done");
+      console.log("Public Keys:", publicKeys);
+      console.log("Shares Data:", sharesData);
+
+      console.log("Length of filesData:", filesData.length);
+      console.log("Operator IDs:", operIds);
+      console.log("Cluster Data:", [
+        BigInt(ClusterData?.validatorCount),
+        BigInt(ClusterData?.networkFeeIndex),
+        BigInt(ClusterData?.index),
+        Boolean(ClusterData?.active),
+        BigInt(ClusterData?.balance),
+      ]);
+
+      try {
+        const result = await contract?.bulkRegisterValidator(
+          publicKeys,
+          operIds,
+          sharesData,
+          0,
+          [
+            BigInt(ClusterData?.validatorCount),
+            BigInt(ClusterData?.networkFeeIndex),
+            BigInt(ClusterData?.index),
+            Boolean(ClusterData?.active),
+            BigInt(ClusterData?.balance),
+          ]
+        );
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   const getNonce = async () => {
     try {
       const params = {
         nodeUrl:
-          "https://eth-holesky.g.alchemy.com/v2/_3FNJQGN_c0K-gLsSMfS56ExoqJKWmbr", // this can be an Infura, or Alchemy node, necessary to query the blockchain
-        contractAddress: "0x352A18AEe90cdcd825d1E37d9939dCA86C00e281", // this is the address of SSV smart contract
-        ownerAddress: receivedData?.owner, // this is the wallet address of the cluster owner
-        operatorIds: receivedData?.operatorIds, // this is a list of operator IDs chosen by the owner for their cluster
+          "https://eth-holesky.g.alchemy.com/v2/_3FNJQGN_c0K-gLsSMfS56ExoqJKWmbr",
+        contractAddress: "0x352A18AEe90cdcd825d1E37d9939dCA86C00e281",
+        ownerAddress: receivedData?.owner,
+        operatorIds: receivedData?.operatorIds,
         network: "holesky",
       };
 
       const getdata = await axios.get(
         `https://api.ssv.network/api/v4/holesky/clusters/owner/${receivedData?.owner}/operators/${receivedData?.operatorIds}`
       );
-      console.log("getdata", getdata?.data.cluster);
-
-      // ClusterScanner is initialized with the given parameters
-      // const clusterScanner = new ClusterScanner(params);
-      // // Return the Cluster Snapshot
-      // const result = await clusterScanner.run(receivedData?.operatorIds);
       setClusterData(getdata?.data.cluster);
-      // console.log("cluster data", result.cluster);
-      // console.log("cluster data result", result);
 
       if (receivedData) {
-        console.log(params);
-
         const nonceScanner = new NonceScanner(params);
-        // Return the owner nonce
         const nextNonce = await nonceScanner.run();
-        // console.log("asdasdafaf");
-
-        // console.log("Next Nonce:", nextNonce);
         setNonce(nextNonce);
-      } else {
-        // console.log("no data gett");
       }
-    } catch (error) {
-      // console.log("getting error to get nonce", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    console.log("contract", contract);
-
     getNonce();
   }, [receivedData]);
 
   const handleClick = () => {
-    // console.log(filesData);
     if (nonce && operatorKey && filesData.length > 0) {
       if (filesData[0]?.password) void main();
     }
@@ -258,14 +239,12 @@ export default function DragComponent() {
         array.push(response.data.public_key);
       }
       setOperatorKey(array);
-      // console.log(array);
     } catch (error) {
       console.error("Error fetching operator data:", error);
     }
   };
 
   useEffect(() => {
-    // console.log("drag", receivedData);
     getOperatorKeys();
   }, [receivedData]);
 
@@ -312,30 +291,30 @@ export default function DragComponent() {
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
-                          aria-label="toggle password visibility"
                           onClick={() => handleClickShowPassword(index)}
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
-                          sx={{ color: "white" }}
                         >
                           {data.showPassword ? (
-                            <Visibility sx={{ color: "white" }} />
-                          ) : (
                             <VisibilityOff sx={{ color: "white" }} />
+                          ) : (
+                            <Visibility sx={{ color: "white" }} />
                           )}
                         </IconButton>
                       </InputAdornment>
                     }
                     label={`Enter keystore password for file ${index + 1}`}
                     sx={{
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "white",
-                      },
-                      "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "white",
-                      },
-                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "white",
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: "#7c8da3",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#7c8da3",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#7c8da3",
+                        },
                       },
                       color: "white",
                     }}
@@ -343,14 +322,14 @@ export default function DragComponent() {
                 </FormControl>
               </div>
             ))}
-            <button
-              className="w-full text-[19px] bg-blue-500 text-white px-5 py-3 rounded"
-              onClick={handleClick}
-            >
-              Next
-            </button>
           </div>
         )}
+        <button
+          className="mt-4 bg-[#2b6e2b] rounded-md text-white w-full py-2"
+          onClick={handleClick}
+        >
+          Submit
+        </button>
       </div>
     </div>
   );

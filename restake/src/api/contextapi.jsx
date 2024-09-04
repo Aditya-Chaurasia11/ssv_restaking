@@ -8,6 +8,7 @@ export const Web3provider = ({ children }) => {
   const [account, setAccount] = useState("");
   const [contract, setContract] = useState(null);
   const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
 
   useEffect(() => {
     try {
@@ -28,6 +29,7 @@ export const Web3provider = ({ children }) => {
           const signer = await provider.getSigner();
           const address = await signer.getAddress();
           setAccount(address);
+          setSigner(signer);
 
           const network = await provider.getNetwork();
           if (network.chainId !== 0x4268) {
@@ -70,6 +72,7 @@ export const Web3provider = ({ children }) => {
         setProvider,
         contract,
         setContract,
+        signer,
       }}
     >
       {children}
