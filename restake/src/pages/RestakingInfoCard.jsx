@@ -55,7 +55,6 @@ const RestakingInfoCard = () => {
     if (showAdd === true) {
       navigate("/choose-clustor");
     } else {
-      setShowAdd(true);
       console.log("initating");
 
       if (podAddress === "0x0000000000000000000000000000000000000000") {
@@ -64,6 +63,7 @@ const RestakingInfoCard = () => {
           await tx.wait();
           const podaddress = await eigenpodmanagerContract.ownerToPod(account);
           setPodAddress(podaddress);
+          setShowAdd(true);
         } catch (error) {
           console.log(error);
 
