@@ -24,8 +24,7 @@ import { useWeb3 } from "../api/contextapi";
 import { IoMdAdd } from "react-icons/io";
 
 const ChooseClustor = ({ func, setDistMethod }) => {
-  const { account, setAccount, provider, setProvider, contract, setContract } =
-    useWeb3();
+  const { account } = useWeb3();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRow] = useState([]);

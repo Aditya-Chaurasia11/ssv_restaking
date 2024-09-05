@@ -1,13 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./restakinginfocard.css";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useWeb3 } from "../api/contextapi";
+import abi from "../abi/eigenpodmanagerabi";
+import { ethers } from "ethers";
 
 const RestakingInfoCard = () => {
   const navigate = useNavigate();
+  const { account, signer, provider } = useWeb3();
   const [showAdd, setShowAdd] = useState(false);
+  const [podAddress, setPodAddress] = useState("");
+  const [eigenpodmanagerContract, setEigenpodmanagerContract] = useState(null);
+
+  const load = async () => {
+    console.log(abi);
+    console.log(signer);
+    console.log(provider);
+
+    const eigenpodmanagerContract = new ethers.Contract(
+      "0x30770d7E3e71112d7A6b7259542D1f680a70e315",
+      abi,
+      signer
+    );
+
+    const podaddress = await eigenpodmanagerContract.ownerToPod(account);
+    setPodAddress(podaddress);
+    setEigenpodmanagerContract(eigenpodmanagerContract);
+
+    setShowAdd(true);
+    if (podaddress === "0x0000000000000000000000000000000000000000") {
+      setShowAdd(false);
+    }
+  };
+
+  const openEtherScan = (address) => {
+    window.open(`https://holesky.etherscan.io/address/${address}`);
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
 
   const copyToClipboard = (add) => {
     navigator.clipboard.writeText(add);
@@ -16,11 +51,26 @@ const RestakingInfoCard = () => {
     });
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (showAdd === true) {
       navigate("/choose-clustor");
+    } else {
+      setShowAdd(true);
+      console.log("initating");
+
+      if (podAddress === "0x0000000000000000000000000000000000000000") {
+        try {
+          const tx = await eigenpodmanagerContract.createPod();
+          await tx.wait();
+          const podaddress = await eigenpodmanagerContract.ownerToPod(account);
+          setPodAddress(podaddress);
+        } catch (error) {
+          console.log(error);
+
+          setShowAdd(false);
+        }
+      }
     }
-    setShowAdd(true);
   };
 
   return (
@@ -62,7 +112,7 @@ const RestakingInfoCard = () => {
         <div className="restakingCard_showaddress">
           <h2>EigenPod Address</h2>
           <div>
-            0xfdda...00582{" "}
+            {podAddress.slice(0, 8) + "......." + podAddress.slice(26, 32)}{" "}
             <svg
               onClick={() => copyToClipboard("adsad")}
               xmlns="http://www.w3.org/2000/svg"
@@ -91,6 +141,9 @@ const RestakingInfoCard = () => {
               "&:hover": {
                 backgroundColor: "#0056b3",
               },
+            }}
+            onClick={() => {
+              openEtherScan(podAddress);
             }}
           >
             VIEW ON ETHERSCAN {"->"}
