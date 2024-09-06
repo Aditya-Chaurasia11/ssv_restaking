@@ -233,7 +233,9 @@ export default function DragComponent() {
         const nextNonce = await nonceScanner.run();
         setNonce(nextNonce);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log("error in nonce scanning", error);
+    }
   };
 
   useEffect(() => {
