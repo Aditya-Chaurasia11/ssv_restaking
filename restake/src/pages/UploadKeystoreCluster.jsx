@@ -209,29 +209,33 @@ export default function DragComponent() {
 
   const getNonce = async () => {
     try {
-      const params = {
-        nodeUrl:
-          "https://eth-holesky.g.alchemy.com/v2/_3FNJQGN_c0K-gLsSMfS56ExoqJKWmbr",
-        contractAddress: "0x352A18AEe90cdcd825d1E37d9939dCA86C00e281",
-        ownerAddress: account,
-        operatorIds: operIds,
-        network: "holesky",
-      };
-
-      // const getdata = await axios.get(
-      //   `https://api.ssv.network/api/v4/holesky/clusters/owner/${account}/operators/${operIds}`
-      // );
-      // console.log("aa", getdata);
-
-      // setClusterData(getdata?.data.cluster);
+      const url =
+        "https://api.studio.thegraph.com/query/71118/ssv-network-holesky/version/latest";
+      const query = `
+query AccountNonceQuery {
+  account(id: "0x004f13516f00ccc4aca6560c115bee5aaf5f758b") {
+    nonce
+  }
+}`;
 
       if (receivedData) {
-        const nonceScanner = new NonceScanner(params);
-        const nextNonce = await nonceScanner.run();
-        setNonce(nextNonce);
-        console.log(nextNonce);
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query }),
+        });
 
-        if (nextNonce && operatorKeys && filesData.length > 0) {
+        const responseData = await response.json();
+        // console.log(responseData);
+        // console.log(responseData?.data.account.nonce);
+
+        setNonce(responseData?.data.account.nonce);
+
+        console.log();
+
+        if (responseData && operatorKeys && filesData.length > 0) {
           if (filesData[0]?.password) void main();
         }
       }

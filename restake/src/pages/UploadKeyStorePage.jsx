@@ -214,15 +214,6 @@ export default function DragComponent() {
 
   const getNonce = async () => {
     try {
-      // const params = {
-      //   nodeUrl:
-      //     "https://eth-holesky.g.alchemy.com/v2/_3FNJQGN_c0K-gLsSMfS56ExoqJKWmbr",
-      //   contractAddress: "0x352A18AEe90cdcd825d1E37d9939dCA86C00e281",
-      //   ownerAddress: receivedData?.owner,
-      //   operatorIds: receivedData?.operatorIds,
-      //   network: "holesky",
-      // };
-
       const url =
         "https://api.studio.thegraph.com/query/71118/ssv-network-holesky/version/latest";
       const query = `
@@ -249,7 +240,6 @@ query AccountNonceQuery {
         const responseData = await response.json();
         console.log(responseData);
         console.log(responseData?.data.account.nonce);
-
         setNonce(responseData?.data.account.nonce);
       }
     } catch (error) {
