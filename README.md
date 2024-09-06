@@ -88,4 +88,4 @@ npm run dev
 ```
 
 Contact
-For any inquiries, reach out to the project developers at [Maniveer198@gmail.com](mailto:Maniveer198@gmail.com).
+For any inquiries, reach out to the project developers at [Maniveer198@gmail.com](mailto:Maniveer198@gmail.com) & [1212aditya11@gmail.com](mailto:1212aditya11@gmail.com).
