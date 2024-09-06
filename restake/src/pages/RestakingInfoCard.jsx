@@ -16,10 +16,6 @@ const RestakingInfoCard = () => {
   const [eigenpodmanagerContract, setEigenpodmanagerContract] = useState(null);
 
   const load = async () => {
-    console.log(abi);
-    console.log(signer);
-    console.log(provider);
-
     const eigenpodmanagerContract = new ethers.Contract(
       "0x30770d7E3e71112d7A6b7259542D1f680a70e315",
       abi,
@@ -114,7 +110,7 @@ const RestakingInfoCard = () => {
           <div>
             {podAddress.slice(0, 8) + "......." + podAddress.slice(26, 32)}{" "}
             <svg
-              onClick={() => copyToClipboard("adsad")}
+              onClick={() => copyToClipboard(podAddress)}
               xmlns="http://www.w3.org/2000/svg"
               xmlns:xlink="http://www.w3.org/1999/xlink"
               aria-hidden="true"

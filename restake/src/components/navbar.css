@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.1rem 6.5rem;
+  padding: 1.1rem 6.8rem;
   /* background-color: transparent; */
   /* background-color:#101419; */
   background-color: #0a2b3c;
@@ -22,6 +22,9 @@
   /* z-index: 500; */
 
   margin-right: 2rem;
+  font-size: 32px;
+  font-weight: 700;
+  color: #1ba5f8;
 }
 
 .gpt3__navbar-links_logo h2{

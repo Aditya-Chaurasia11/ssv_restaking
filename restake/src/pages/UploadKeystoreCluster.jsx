@@ -28,7 +28,6 @@ export default function DragComponent() {
   const receivedData = location.state;
   const navigate = useNavigate();
   const [filesData, setFilesData] = useState([]);
-  // const [operatorKey, setOperatorKey] = useState([]);
   const [operIds, setOperIDs] = useState([]);
   const [operatorKeys, setOperatorKeys] = useState([]);
   const [keystore, setKeyStore] = useState(null);
@@ -49,9 +48,9 @@ export default function DragComponent() {
     signer,
   } = useWeb3();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleClose = () => {
     setOpen(false);
@@ -186,6 +185,7 @@ export default function DragComponent() {
       );
       console.log(tx);
       await tx.wait();
+      setOpen(true);
       console.log([
         keysharesData.shares[0]?.payload.publicKey,
         operIds,
@@ -250,20 +250,28 @@ export default function DragComponent() {
           {/* <Button variant="outlined" onClick={handleClickOpen}>
             Open alert dialog
           </Button> */}
-          {/* <Dialog
+          <Dialog
             open={open}
             onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-              {"Use Google's location service?"}
+              {" New Cluster Created check it on SSVScan "}
             </DialogTitle>
             <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Let Google help apps determine location. This means sending
-                anonymous location data to Google, even when no apps are
-                running.
+              <DialogContentText
+                id="alert-dialog-description"
+                className="dialog_box_container flex flex-col items-center justify-center"
+              >
+                <Button
+                  variant="contained"
+                  href="https://ssvscan.io/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  SSVScan
+                </Button>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -271,7 +279,7 @@ export default function DragComponent() {
                 Close
               </Button>
             </DialogActions>
-          </Dialog> */}
+          </Dialog>
         </div>
         <CustomDragDrop
           ownerLicense={filesData.map((data) => data.file)}
@@ -291,6 +299,8 @@ export default function DragComponent() {
                     mt: "5px",
                     mb: "px",
                     width: "100%",
+
+                    color: "white",
                   }}
                   variant="outlined"
                 >
@@ -334,6 +344,7 @@ export default function DragComponent() {
                         borderColor: "white",
                       },
                       color: "white",
+                      borderColor: "white",
                     }}
                   />
                 </FormControl>

@@ -399,7 +399,7 @@ const ChooseClustor = ({ func, setDistMethod }) => {
                   },
                 }}
               >
-                Log Selected Data
+                Next
               </Button>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}

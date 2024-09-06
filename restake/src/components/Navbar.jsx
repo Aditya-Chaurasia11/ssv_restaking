@@ -14,20 +14,21 @@ const Navbar = () => {
         <div className="gpt3__navbar-links_logo">
           <Link to="/">
             {/* <img src={logo}></img> */}
-            sfdffs
+            SSV Restaking
           </Link>
         </div>
       </div>
 
       <div className="gpt3__navbar-sign">
         <button type="button" className="navbar_my_nft_button_add">
-          <img src={metamask}></img>
-          {account
-            ? `${account?.slice(0, 6)}...${account?.slice(
-                account.length - 4,
-                account.length
-              )}`
-            : "Connect wallet"}
+          {account ? (
+            <>
+              <img src={metamask}></img> {account?.slice(0, 6)}...
+              {account?.slice(account.length - 4, account.length)}
+            </>
+          ) : (
+            "Connect wallet"
+          )}
         </button>
       </div>
     </div>

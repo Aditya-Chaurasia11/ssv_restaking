@@ -14,6 +14,13 @@ import { SSVKeys, KeyShares, KeySharesItem, SSVKeysException } from "ssv-keys";
 import { ClusterScanner, NonceScanner } from "ssv-scanner";
 import { useWeb3 } from "../api/contextapi";
 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 export default function DragComponent() {
   const location = useLocation();
   const receivedData = location.state;
@@ -73,6 +80,16 @@ export default function DragComponent() {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  const [open, setOpen] = useState(false);
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   async function main() {
@@ -187,6 +204,8 @@ export default function DragComponent() {
           ]
         );
         console.log(result);
+        await result.wait();
+        setOpen(true);
       } catch (error) {
         console.log(error);
       }
@@ -256,6 +275,37 @@ export default function DragComponent() {
             Enter KeyShares File
           </h2>
         </div>
+        {/* <Button variant="outlined" onClick={handleClickOpen}>
+          Open alert dialog
+        </Button> */}
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {" All Validators are Registered Successfully "}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText
+              id="alert-dialog-description"
+              className="dialog_box_container flex flex-col items-center justify-center"
+            >
+              <Button
+                variant="contained"
+                href="https://ssvscan.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                SSVScan
+              </Button>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
         <CustomDragDrop
           ownerLicense={filesData.map((data) => data.file)}
           onUpload={uploadFiles}
@@ -274,6 +324,7 @@ export default function DragComponent() {
                     mt: "5px",
                     mb: "px",
                     width: "100%",
+                    color: "white",
                   }}
                   variant="outlined"
                 >
@@ -291,32 +342,32 @@ export default function DragComponent() {
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
+                          aria-label="toggle password visibility"
                           onClick={() => handleClickShowPassword(index)}
                           onMouseDown={handleMouseDownPassword}
                           edge="end"
+                          sx={{ color: "white" }}
                         >
                           {data.showPassword ? (
-                            <VisibilityOff sx={{ color: "white" }} />
-                          ) : (
                             <Visibility sx={{ color: "white" }} />
+                          ) : (
+                            <VisibilityOff sx={{ color: "white" }} />
                           )}
                         </IconButton>
                       </InputAdornment>
                     }
                     label={`Enter keystore password for file ${index + 1}`}
                     sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": {
-                          borderColor: "#7c8da3",
-                        },
-                        "&:hover fieldset": {
-                          borderColor: "#7c8da3",
-                        },
-                        "&.Mui-focused fieldset": {
-                          borderColor: "#7c8da3",
-                        },
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white", // Border color is white
                       },
-                      color: "white",
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white", // Border color on hover
+                      },
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        borderColor: "white", // Border color when focused
+                      },
+                      color: "white", // Text color
                     }}
                   />
                 </FormControl>

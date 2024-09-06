@@ -15,15 +15,19 @@ function Home() {
     <div className="home_container">
       <div className="home_upper">
         <div className="home_container_left">
-          <h1>Craft, Trade & Collect Creative Video NFTs</h1>
+          <h1>SSV Restaking</h1>
           <p>
-            Buy, sell, and explore exceptional video NFTs on Theta, the advanced
-            platform offering secure and transparent ownership of digital video
-            content.
+            Native Restaking redirects an Ethereum validator's withdrawal
+            credentials to an EigenPod, requiring a new validator setup.
+            <br />
+            <br />
+            With ssv.network, you don't need to manage your own validator
+            hardware. Simply register on the network and select operators to run
+            the validator for you.
           </p>
           <div className="home_container_button">
             <button className="button_github" onClick={navigatehandler}>
-              Explore now
+              Start Restaking
             </button>
           </div>
         </div>
