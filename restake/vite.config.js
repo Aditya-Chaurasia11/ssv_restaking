@@ -2,15 +2,14 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
-import json from '@rollup/plugin-json';  // Add this import
 
 export default defineConfig({
   plugins: [
     react(),
-    json() // Add this to your plugins
   ],
   optimizeDeps: {
     esbuildOptions: {
+      // Node.js global to browser globalThis
       define: {
         global: 'globalThis',
       },
@@ -26,7 +25,6 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         rollupNodePolyFill(),
-        json() // Add here as well
       ],
     },
   },
