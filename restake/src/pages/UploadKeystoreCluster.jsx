@@ -48,9 +48,9 @@ export default function DragComponent() {
     signer,
   } = useWeb3();
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -202,6 +202,8 @@ export default function DragComponent() {
         [BigInt(0), BigInt(0), BigInt(0), Boolean(true), BigInt(0)]
       );
       console.log(result);
+      await result.wait();
+      handleClickOpen();
     } catch (error) {
       console.error("Transaction simulation failed:", error);
     }

@@ -84,9 +84,9 @@ export default function DragComponent() {
 
   const [open, setOpen] = useState(false);
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
   const handleClose = () => {
     setOpen(false);
@@ -163,7 +163,8 @@ export default function DragComponent() {
         );
         console.log(result);
         await result.wait();
-        setOpen(true);
+
+        handleClickOpen();
       } catch (error) {
         console.error("Transaction simulation failed:", error);
       }
@@ -206,8 +207,9 @@ export default function DragComponent() {
           ]
         );
         console.log(result);
+
         await result.wait();
-        setOpen(true);
+        handleClickOpen();
       } catch (error) {
         console.log(error);
       }
