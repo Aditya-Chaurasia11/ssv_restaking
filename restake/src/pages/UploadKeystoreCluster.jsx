@@ -213,7 +213,7 @@ export default function DragComponent() {
         "https://api.studio.thegraph.com/query/71118/ssv-network-holesky/version/latest";
       const query = `
 query AccountNonceQuery {
-  account(id: "0x004f13516f00ccc4aca6560c115bee5aaf5f758b") {
+  account(id: "${account}") {
     nonce
   }
 }`;

@@ -162,6 +162,8 @@ export default function DragComponent() {
           ]
         );
         console.log(result);
+        await result.wait();
+        setOpen(true);
       } catch (error) {
         console.error("Transaction simulation failed:", error);
       }
@@ -218,7 +220,7 @@ export default function DragComponent() {
         "https://api.studio.thegraph.com/query/71118/ssv-network-holesky/version/latest";
       const query = `
 query AccountNonceQuery {
-  account(id: "0x004f13516f00ccc4aca6560c115bee5aaf5f758b") {
+  account(id: "${receivedData?.owner}") {
     nonce
   }
 }`;
