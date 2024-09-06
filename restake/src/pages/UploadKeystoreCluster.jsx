@@ -48,10 +48,6 @@ export default function DragComponent() {
     signer,
   } = useWeb3();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -185,7 +181,7 @@ export default function DragComponent() {
       );
       console.log(tx);
       await tx.wait();
-      setOpen(true);
+
       console.log([
         keysharesData.shares[0]?.payload.publicKey,
         operIds,
@@ -203,7 +199,7 @@ export default function DragComponent() {
       );
       console.log(result);
       await result.wait();
-      handleClickOpen();
+      setOpen(true);
     } catch (error) {
       console.error("Transaction simulation failed:", error);
     }
