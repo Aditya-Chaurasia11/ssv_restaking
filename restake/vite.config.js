@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 import rollupNodePolyFill from 'rollup-plugin-polyfill-node';
+import commonjs from '@rollup/plugin-commonjs';
 
 export default defineConfig({
   plugins: [
@@ -25,6 +26,12 @@ export default defineConfig({
     rollupOptions: {
       plugins: [
         rollupNodePolyFill(),
+        commonjs({
+          dynamicRequireTargets: [
+            // Ensure the JSON file is included
+            '../shared/abi/prod.v4.holesky.abi.json',
+          ],
+        })
       ],
     },
   },
