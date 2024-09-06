@@ -11,7 +11,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { SSVKeys, KeyShares, KeySharesItem, SSVKeysException } from "ssv-keys";
-import { ClusterScanner, NonceScanner } from "ssv-scanner";
+// import { ClusterScanner, NonceScanner } from "ssv-scanner";
 import { useWeb3 } from "../api/contextapi";
 
 import Button from "@mui/material/Button";
@@ -120,7 +120,7 @@ export default function DragComponent() {
       await keySharesItem.update({ operators });
       await keySharesItem.update({
         ownerAddress: ownerAdd,
-        ownerNonce: nonce,
+        ownerNonce: parseInt(nonce),
         publicKey,
       });
 
@@ -132,7 +132,7 @@ export default function DragComponent() {
         },
         {
           ownerAddress: ownerAdd,
-          ownerNonce: nonce,
+          ownerNonce: parseInt(nonce),
           privateKey,
         }
       );
@@ -214,14 +214,23 @@ export default function DragComponent() {
 
   const getNonce = async () => {
     try {
-      const params = {
-        nodeUrl:
-          "https://eth-holesky.g.alchemy.com/v2/_3FNJQGN_c0K-gLsSMfS56ExoqJKWmbr",
-        contractAddress: "0x352A18AEe90cdcd825d1E37d9939dCA86C00e281",
-        ownerAddress: receivedData?.owner,
-        operatorIds: receivedData?.operatorIds,
-        network: "holesky",
-      };
+      // const params = {
+      //   nodeUrl:
+      //     "https://eth-holesky.g.alchemy.com/v2/_3FNJQGN_c0K-gLsSMfS56ExoqJKWmbr",
+      //   contractAddress: "0x352A18AEe90cdcd825d1E37d9939dCA86C00e281",
+      //   ownerAddress: receivedData?.owner,
+      //   operatorIds: receivedData?.operatorIds,
+      //   network: "holesky",
+      // };
+
+      const url =
+        "https://api.studio.thegraph.com/query/71118/ssv-network-holesky/version/latest";
+      const query = `
+query AccountNonceQuery {
+  account(id: "0x004f13516f00ccc4aca6560c115bee5aaf5f758b") {
+    nonce
+  }
+}`;
 
       const getdata = await axios.get(
         `https://api.ssv.network/api/v4/holesky/clusters/owner/${receivedData?.owner}/operators/${receivedData?.operatorIds}`
@@ -229,9 +238,19 @@ export default function DragComponent() {
       setClusterData(getdata?.data.cluster);
 
       if (receivedData) {
-        const nonceScanner = new NonceScanner(params);
-        const nextNonce = await nonceScanner.run();
-        setNonce(nextNonce);
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query }),
+        });
+
+        const responseData = await response.json();
+        console.log(responseData);
+        console.log(responseData?.data.account.nonce);
+
+        setNonce(responseData?.data.account.nonce);
       }
     } catch (error) {
       console.log("error in nonce scanning", error);
