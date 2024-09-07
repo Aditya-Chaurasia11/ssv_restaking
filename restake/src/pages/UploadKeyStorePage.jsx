@@ -221,11 +221,11 @@ export default function DragComponent() {
       const url =
         "https://api.studio.thegraph.com/query/71118/ssv-network-holesky/version/latest";
       const query = `
-query AccountNonceQuery {
-  account(id: "${receivedData?.owner}") {
-    nonce
-  }
-}`;
+        query AccountNonceQuery {
+          account(id: "${receivedData?.owner}") {
+            nonce
+          }
+        }`;
 
       const getdata = await axios.get(
         `https://api.ssv.network/api/v4/holesky/clusters/owner/${receivedData?.owner}/operators/${receivedData?.operatorIds}`

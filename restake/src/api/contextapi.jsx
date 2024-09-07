@@ -73,6 +73,7 @@ export const Web3provider = ({ children }) => {
         contract,
         setContract,
         signer,
+        setSigner,
       }}
     >
       {children}
