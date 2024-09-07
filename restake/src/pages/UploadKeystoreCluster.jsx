@@ -226,10 +226,10 @@ query AccountNonceQuery {
         });
 
         const responseData = await response.json();
-        // console.log(responseData);
-        // console.log(responseData?.data.account.nonce);
+        console.log(responseData);
+        console.log(responseData?.data?.account?.nonce || 0);
 
-        setNonce(responseData?.data.account.nonce);
+        setNonce(responseData?.data?.account?.nonce || 0);
 
         console.log();
 
